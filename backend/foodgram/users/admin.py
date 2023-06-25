@@ -14,11 +14,13 @@ class Admin(UserAdmin):
             'fields': ('is_active', 'is_staff', 'is_superuser'),
         }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        (('Дополнительно'), {'fields': ('role', )}),
     )
     list_display = (
-        'username', 'email', 'first_name', 'last_name', 'is_staff', 'role',
+        'username', 'email', 'first_name', 'last_name', 'is_staff',
     )
     list_editable = (
-        'is_staff', 'role',
+        'is_staff',
+    )
+    list_filter = (
+        'email', 'username',
     )

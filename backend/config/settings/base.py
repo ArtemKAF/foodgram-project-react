@@ -1,29 +1,33 @@
-from os import getenv
 from pathlib import Path
 
-from dotenv import load_dotenv
+import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / '.env')
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+APPS_DIR = BASE_DIR / 'foodgram'
 
-SECRET_KEY = str(getenv('SECRET_KEY'))
+env = environ.Env()
+env.read_env(str(BASE_DIR / '.env'))
 
-DEBUG = getenv('DEBUG')
+DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = getenv('ALLOWED_HOSTS').split(' ')
-
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'django_filters',
-    'api.apps.ApiConfig',
-    'users.apps.UsersConfig',
 ]
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
+]
+
+LOCAL_APPS = [
+    'foodgram.users',
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -35,7 +39,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'foodgram_backend.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -50,20 +54,13 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
-WSGI_APPLICATION = 'foodgram_backend.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': getenv('POSTGRES_DB_NAME', ''),
-        'USER': getenv('POSTGRES_DB_USER', ''),
-        'PASSWORD': getenv('POSTGRES_DB_PASSWORD', ''),
-        'HOST': getenv('POSTGRES_DB_HOST', ''),
-        'DB_PORT': getenv('POSTGRES_DB_PORT', ''),
-    }
+    'default': env.db()
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -89,11 +86,24 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [str(APPS_DIR / 'static')]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+MEDIA_ROOT = str(APPS_DIR / 'media')
+
+MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
