@@ -1,5 +1,6 @@
 from django.conf import settings
-from foodgram.users.api.views import UserViewSet
+from django.urls import include, path
+from foodgram.users.api.views import CastomUserViewSet
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 if settings.DEBUG:
@@ -7,8 +8,11 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register('users', UserViewSet)
-
+router.register('users', CastomUserViewSet)
 
 app_name = 'api'
-urlpatterns = router.urls
+urlpatterns = [
+    path('auth/', include('djoser.urls.authtoken')),
+]
+
+urlpatterns += router.urls
