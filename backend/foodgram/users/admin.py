@@ -16,7 +16,7 @@ class Admin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     list_display = (
-        'username', 'email', 'first_name', 'last_name', 'is_staff',
+        'last_name', 'first_name', 'username', 'email', 'is_staff',
     )
     list_editable = (
         'is_staff',

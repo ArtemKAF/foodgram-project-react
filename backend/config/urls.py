@@ -7,5 +7,4 @@ urlpatterns = [
 
 urlpatterns += [
     path('api/', include('config.api_router')),
-    #path('api/', include('djoser.urls')),
 ]

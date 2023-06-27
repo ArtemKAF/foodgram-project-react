@@ -1,13 +1,10 @@
-from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
-
-#from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
-#from rest_framework.viewsets import GenericViewSet
-
-#from .serializers import UserSerializer
-
-User = get_user_model()
+from rest_framework.decorators import action
 
 
 class CastomUserViewSet(UserViewSet):
-    ...
+
+    @action(methods=('get', ), detail=False)
+    def me(self, request, *args, **kwargs):
+        self.get_object = self.get_instance
+        return self.retrieve(request, *args, **kwargs)
