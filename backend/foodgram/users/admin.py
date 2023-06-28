@@ -16,7 +16,7 @@ class Admin(UserAdmin):
             None, {'fields': ('username', 'password')}
         ),
         (
-            _('Persanal info'), {
+            _('Personal info'), {
                 'fields': ('email', 'last_name', 'first_name', )
             }
         ),
