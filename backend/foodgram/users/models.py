@@ -38,3 +38,39 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
+
+
+class Subscription(models.Model):
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscrubers',
+        verbose_name=_('Author'),
+    )
+    subscriber = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='authors',
+        verbose_name=_('Subscriber'),
+    )
+
+    class Meta:
+        ordering = ('id', )
+        verbose_name = _('Subscription')
+        verbose_name_plural = _('Subscriptions')
+        constraints = [
+            models.UniqueConstraint(
+                fields=('author', 'subscriber', ),
+                name='%(app_label)s_%(class)s_unique_relationships',
+            ),
+            models.CheckConstraint(
+                check=~models.Q(subscriber=models.F('author')),
+                name='%(app_label)s_%(class)s_prevent_subscrubing_yourself',
+            ),
+        ]
+
+    def __str__(self):
+        return (
+            f'{self.subscriber.username} ' + _('subscribed to')
+            + f' {self.author.username}'
+        )

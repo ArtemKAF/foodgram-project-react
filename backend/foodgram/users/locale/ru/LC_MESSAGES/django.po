@@ -40,3 +40,18 @@ msgstr "Пользователь"
 #: models.py:37
 msgid "Users"
 msgstr "Пользователи"
+#: models.py:48
+msgid "Author"
+msgstr "Автор"
+#: models.py:54
+msgid "Subscriber"
+msgstr "Подписчик"
+#: models.py:59
+msgid "Subscription"
+msgstr "Подписка"
+#: models.py:60
+msgid "Subscriptionы"
+msgstr "Подписки"
+#: models.py:64
+msgid "subscribed to"
+msgstr "подписан на"
