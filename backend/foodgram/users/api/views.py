@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from foodgram.users.api.serializers import SubscriptionSerializer
 from foodgram.users.models import Subscription
-from rest_framework import mixins, permissions, status, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -11,33 +11,48 @@ User = get_user_model()
 
 
 class CastomUserViewSet(UserViewSet):
-
-    @action(methods=('get', ), detail=False)
-    def me(self, request, *args, **kwargs):
-        self.get_object = self.get_instance
-        return self.retrieve(request, *args, **kwargs)
+    ...
 
 
-class SubscriptionViewSet(mixins.ListModelMixin,
-                          mixins.CreateModelMixin,
-                          mixins.DestroyModelMixin,
-                          viewsets.GenericViewSet):
+class SubscriptionViewSet(viewsets.GenericViewSet):
     serializer_class = SubscriptionSerializer
 
     def get_queryset(self):
         return User.objects.filter(authors__author=self.request.user)
 
     @action(
+        methods=('get', ),
+        detail=False,
+        url_name='list'
+    )
+    def subscriptions(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(
         methods=('post', 'delete', ),
         detail=False,
-        url_path=r'(?P<user_id>\d+)/subscribe',
+        url_path=r'(?P<id>[^/.]+)/subscribe',
         url_name='subscribe',
         permission_classes=(permissions.IsAuthenticated, )
     )
     def subscribe(self, request, *args, **kwargs):
+        subscriber = request.user
+        author = get_object_or_404(User, pk=kwargs.get('id'))
+        subscription = Subscription.objects.filter(
+            subscriber=subscriber,
+            author=author
+        )
         if request.method == 'POST':
             subscriber = request.user
-            author = get_object_or_404(User, pk=kwargs.get('user_id'))
+            author = get_object_or_404(User, pk=kwargs.get('id'))
             subscription = Subscription.objects.filter(
                 subscriber=subscriber,
                 author=author
@@ -62,3 +77,10 @@ class SubscriptionViewSet(mixins.ListModelMixin,
                 if subscriber == author:
                     errors['yourself'] = 'Нельзя подписаться на самого себя.'
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        if subscription.exists():
+            subscription.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {'not exists': 'Подписка отсутствует.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
