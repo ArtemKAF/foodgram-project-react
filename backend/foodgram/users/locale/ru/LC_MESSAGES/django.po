@@ -50,7 +50,7 @@ msgstr "Подписчик"
 msgid "Subscription"
 msgstr "Подписка"
 #: models.py:60
-msgid "Subscriptionы"
+msgid "Subscriptions"
 msgstr "Подписки"
 #: models.py:64
 msgid "subscribed to"

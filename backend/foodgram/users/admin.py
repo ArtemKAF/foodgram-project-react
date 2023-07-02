@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 @admin.register(User)
-class Admin(UserAdmin):
+class CastomUserAdmin(UserAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
     fieldsets = (
