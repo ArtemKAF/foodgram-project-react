@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.urls import include, path
+from foodgram.recipes.api.views import TagViewSet
 from foodgram.users.api.views import CastomUserViewSet, SubscriptionViewSet
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
@@ -11,6 +12,7 @@ else:
 router.register('users', CastomUserViewSet)
 router.register(
     'users', SubscriptionViewSet, basename='subscriptions')
+router.register('tags', TagViewSet)
 
 app_name = 'api'
 urlpatterns = [

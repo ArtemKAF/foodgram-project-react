@@ -27,6 +27,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'foodgram.users',
+    'foodgram.recipes',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
