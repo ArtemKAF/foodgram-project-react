@@ -1,4 +1,4 @@
-from foodgram.recipes.models import Tag
+from foodgram.recipes.models import Ingredient, Tag
 from rest_framework.serializers import ModelSerializer
 
 
@@ -11,4 +11,16 @@ class TagSerializer(ModelSerializer):
         )
         read_only_fields = (
             'name', 'color', 'slug',
+        )
+
+
+class IngredientSerializer(ModelSerializer):
+
+    class Meta:
+        model = Ingredient
+        fields = (
+            'id', 'name', 'measurment_unit',
+        )
+        read_only_fields = (
+            'name', 'measurment_unit',
         )

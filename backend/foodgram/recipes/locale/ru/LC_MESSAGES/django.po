@@ -26,3 +26,11 @@ msgstr "Тэг"
 #: foodgram/recipes/models.py:30
 msgid "Tags"
 msgstr "Тэги"
+
+#: foodgram/recipes/models.py:51
+msgid "Ingredient"
+msgstr "Ингредиент"
+
+#: foodgram/recipes/models.py:52
+msgid "Ingredients"
+msgstr "Ингредиенты"
