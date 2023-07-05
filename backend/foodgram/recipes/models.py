@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+User = get_user_model()
 
 
 class Tag(models.Model):
@@ -53,3 +56,87 @@ class Ingredient(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Recipe(models.Model):
+    name = models.CharField(
+        verbose_name='Название',
+        max_length=250,
+        blank=False,
+        db_index=True,
+    )
+    description = models.TextField(
+        verbose_name='Описание',
+        blank=False,
+    )
+    cooking_time = models.PositiveSmallIntegerField(
+        verbose_name='Время приготовления, мин',
+        blank=False,
+    )
+    image = models.ImageField(
+        verbose_name='Изображение',
+        blank=False,
+        upload_to='recipes/',
+    )
+    pub_date = models.DateTimeField(
+        verbose_name='Дата публикации',
+        auto_now_add=True,
+    )
+    tag = models.ManyToManyField(
+        Tag,
+        verbose_name='Тэги',
+        blank=False,
+    )
+    author = models.ForeignKey(
+        User,
+        verbose_name='Автор',
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    ingredient = models.ManyToManyField(
+        Ingredient,
+        through='IngredientAmount',
+        verbose_name='Ингредиент',
+        blank=False,
+    )
+    favorite = models.ManyToManyField(
+        User,
+        verbose_name='Лайкнувшие',
+        related_name='favorite_recipes',
+        blank=True,
+    )
+
+    class Meta:
+        ordering = ('-pub_date', )
+        verbose_name = _('Recipe')
+        verbose_name_plural = _('Recipes')
+        default_related_name = 'recipes'
+
+    def __str__(self):
+        return self.name
+
+
+class IngredientAmount(models.Model):
+    ingredient = models.ForeignKey(
+        Ingredient,
+        verbose_name='Ингредиент',
+        on_delete=models.CASCADE,
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        verbose_name='Рецепт',
+        on_delete=models.CASCADE,
+    )
+    amount = models.SmallIntegerField(
+        verbose_name='Количество',
+        blank=False,
+    )
+
+    class Meta:
+        ordering = ('id', )
+        verbose_name = _('Ingredient amount')
+        verbose_name_plural = _('Amounts of ingredients')
+        default_related_name = 'ingredients_amount'
+
+    def __str__(self):
+        return f'{self.amount} {self.ingredient.name} в {self.recipe.name}'

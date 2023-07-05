@@ -19,18 +19,34 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: foodgram/recipes/models.py:29
+#: foodgram/recipes/models.py:32
 msgid "Tag"
 msgstr "Тэг"
 
-#: foodgram/recipes/models.py:30
+#: foodgram/recipes/models.py:33
 msgid "Tags"
 msgstr "Тэги"
 
-#: foodgram/recipes/models.py:51
+#: foodgram/recipes/models.py:54
 msgid "Ingredient"
 msgstr "Ингредиент"
 
-#: foodgram/recipes/models.py:52
+#: foodgram/recipes/models.py:55
 msgid "Ingredients"
 msgstr "Ингредиенты"
+
+#: foodgram/recipes/models.py:111
+msgid "Recipe"
+msgstr "Рецепт"
+
+#: foodgram/recipes/models.py:112
+msgid "Recipes"
+msgstr "Рецепты"
+
+#: foodgram/recipes/models.py:137
+msgid "Ingredient amount"
+msgstr "Количество игредиента"
+
+#: foodgram/recipes/models.py:138
+msgid "Amounts of ingredients"
+msgstr "Количества ингредиентов"
