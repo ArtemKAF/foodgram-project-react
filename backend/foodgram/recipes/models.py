@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -130,6 +131,14 @@ class IngredientAmount(models.Model):
     amount = models.SmallIntegerField(
         verbose_name='Количество',
         blank=False,
+        validators=(
+            MinValueValidator(
+                limit_value=1,
+                message=_(
+                    'The amount of the ingredient cannot be less than one.'
+                )
+            ),
+        )
     )
 
     class Meta:

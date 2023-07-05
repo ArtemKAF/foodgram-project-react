@@ -37,7 +37,7 @@ class User(AbstractUser):
         verbose_name_plural = _('Users')
 
     def __str__(self):
-        return f'{self.last_name} {self.first_name}'
+        return f'{self.username}'
 
 
 class Subscription(models.Model):

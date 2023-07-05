@@ -44,9 +44,13 @@ msgid "Recipes"
 msgstr "Рецепты"
 
 #: foodgram/recipes/models.py:137
+msgid "The amount of the ingredient cannot be less than one."
+msgstr "Количество игредиента не может быть меньше одного."
+
+#: foodgram/recipes/models.py:146
 msgid "Ingredient amount"
 msgstr "Количество игредиента"
 
-#: foodgram/recipes/models.py:138
+#: foodgram/recipes/models.py:147
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
