@@ -83,7 +83,7 @@ class Recipe(models.Model):
         verbose_name='Дата публикации',
         auto_now_add=True,
     )
-    tag = models.ManyToManyField(
+    tags = models.ManyToManyField(
         Tag,
         verbose_name='Тэги',
         blank=False,
@@ -93,12 +93,6 @@ class Recipe(models.Model):
         verbose_name='Автор',
         blank=False,
         on_delete=models.CASCADE,
-    )
-    ingredient = models.ManyToManyField(
-        Ingredient,
-        through='IngredientAmount',
-        verbose_name='Ингредиент',
-        blank=False,
     )
     favorite = models.ManyToManyField(
         User,
@@ -122,11 +116,13 @@ class IngredientAmount(models.Model):
         Ingredient,
         verbose_name='Ингредиент',
         on_delete=models.CASCADE,
+        related_name='ingredients_amount',
     )
     recipe = models.ForeignKey(
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
+        related_name='ingredients',
     )
     amount = models.SmallIntegerField(
         verbose_name='Количество',
@@ -145,7 +141,6 @@ class IngredientAmount(models.Model):
         ordering = ('id', )
         verbose_name = _('Ingredient amount')
         verbose_name_plural = _('Amounts of ingredients')
-        default_related_name = 'ingredients_amount'
 
     def __str__(self):
         return f'{self.amount} {self.ingredient.name} в {self.recipe.name}'

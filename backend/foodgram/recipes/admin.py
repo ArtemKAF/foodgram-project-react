@@ -26,5 +26,5 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'author', 'description', 'cooking_time', 'pub_date',
     )
-    list_filter = ('author__username', 'name', 'tag__name', )
+    list_filter = ('author__username', 'name', 'tags__name', )
     search_fields = ('name', 'author__username', )
