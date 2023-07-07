@@ -1,5 +1,6 @@
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from rest_framework.serializers import SerializerMethodField
+from foodgram.recipes.models import Recipe
+from rest_framework import serializers
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
@@ -15,7 +16,7 @@ class UserRegistrationSerializer(UserCreateSerializer):
 
 
 class CastomUserSerializer(UserSerializer):
-    is_subscribed = SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, obj):
         request = self.context.get('request')
@@ -31,6 +32,19 @@ class CastomUserSerializer(UserSerializer):
         read_only_fields = ('id', )
 
 
+class RecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            'id', 'name', 'image', 'cooking_time',
+        )
+
+
 class SubscriptionSerializer(CastomUserSerializer):
+    recipes = RecipeSerializer(read_only=True, many=True)
+
     class Meta(CastomUserSerializer.Meta):
-        ...
+        fields = (
+            'email', 'id', 'username', 'first_name', 'last_name',
+            'is_subscribed', 'recipes',
+        )

@@ -10,9 +10,9 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register('users', CastomUserViewSet)
 router.register(
     'users', SubscriptionViewSet, basename='subscriptions')
+router.register('users', CastomUserViewSet)
 router.register('tags', TagViewSet)
 router.register('ingredients', IngredientViewSet)
 router.register('recipes', RecipeViewSet)

@@ -16,14 +16,15 @@ class CastomUserViewSet(UserViewSet):
 
 class SubscriptionViewSet(viewsets.GenericViewSet):
     serializer_class = SubscriptionSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.AllowAny, )
 
     def get_queryset(self):
-        return User.objects.filter(authors__author=self.request.user)
+        return User.objects.filter(subscribers__subscriber=self.request.user)
 
     @action(
         methods=('get', ),
         detail=False,
-        url_name='list'
+        url_name='list',
     )
     def subscriptions(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -41,7 +42,6 @@ class SubscriptionViewSet(viewsets.GenericViewSet):
         detail=False,
         url_path=r'(?P<id>[^/.]+)/subscribe',
         url_name='subscribe',
-        permission_classes=(permissions.IsAuthenticated, )
     )
     def subscribe(self, request, *args, **kwargs):
         subscriber = request.user
