@@ -56,10 +56,17 @@ class RecipeSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     text = serializers.CharField(source='description')
     ingredients = IngredientAmountSerializer(many=True)
+    is_favorited = serializers.SerializerMethodField(read_only=True)
+
+    def get_is_favorited(self, obj):
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return False
+        return request.user.favorite_recipes.filter(pk=obj.pk).exists()
 
     class Meta:
         model = Recipe
         fields = (
-            'id', 'tags', 'author', 'ingredients', 'name', 'image', 'text',
-            'cooking_time',
+            'id', 'tags', 'author', 'ingredients', 'is_favorited', 'name',
+            'image', 'text', 'cooking_time',
         )
