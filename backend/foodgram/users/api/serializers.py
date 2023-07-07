@@ -42,9 +42,13 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class SubscriptionSerializer(CastomUserSerializer):
     recipes = RecipeSerializer(read_only=True, many=True)
+    recipes_count = serializers.SerializerMethodField(read_only=True)
+
+    def get_recipes_count(self, obj):
+        return obj.recipes.all().count()
 
     class Meta(CastomUserSerializer.Meta):
         fields = (
             'email', 'id', 'username', 'first_name', 'last_name',
-            'is_subscribed', 'recipes',
+            'is_subscribed', 'recipes', 'recipes_count',
         )
