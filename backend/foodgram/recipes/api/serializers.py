@@ -1,4 +1,5 @@
 from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
+from foodgram.recipes.utils.fields import Base64ImageField
 from foodgram.users.api.serializers import UserSerializer
 from rest_framework import serializers
 
@@ -31,7 +32,7 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
     id = serializers.SlugRelatedField(
         source='ingredient',
         slug_field='id',
-        read_only=True,
+        queryset=Ingredient.objects.all(),
     )
     name = serializers.SlugRelatedField(
         source='ingredient',
@@ -52,17 +53,38 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
     author = UserSerializer(read_only=True)
-    text = serializers.CharField(source='description')
-    ingredients = IngredientAmountSerializer(many=True)
-    is_favorited = serializers.SerializerMethodField(read_only=True)
+    ingredients = IngredientAmountSerializer(many=True, required=True)
+    is_favorited = serializers.SerializerMethodField()
+    image = Base64ImageField(required=True, allow_null=False)
+    text = serializers.CharField(source='description', required=True)
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
         if request is None or not request.user.is_authenticated:
             return False
         return request.user.favorite_recipes.filter(pk=obj.pk).exists()
+
+    def to_representation(self, instance):
+        self.fields['tags'] = TagSerializer(many=True)
+        return super().to_representation(instance)
+
+    @staticmethod
+    def add_ingredients(instance, ingredients):
+        for ingredient in ingredients:
+            IngredientAmount.objects.get_or_create(
+                ingredient=ingredient['ingredient'],
+                amount=ingredient['amount'],
+                recipe=instance
+            )
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags')
+        ingredients = validated_data.pop('ingredients')
+        recipe = Recipe.objects.create(**validated_data)
+        recipe.tags.add(*tags)
+        self.add_ingredients(recipe, ingredients)
+        return recipe
 
     class Meta:
         model = Recipe
