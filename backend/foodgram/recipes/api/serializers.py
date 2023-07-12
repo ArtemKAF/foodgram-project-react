@@ -21,10 +21,10 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = (
-            'id', 'name', 'measurment_unit',
+            'id', 'name', 'measurement_unit',
         )
         read_only_fields = (
-            'name', 'measurment_unit',
+            'name', 'measurement_unit',
         )
 
 
@@ -39,16 +39,16 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
         slug_field='name',
         read_only=True,
     )
-    measurment_unit = serializers.SlugRelatedField(
+    measurement_unit = serializers.SlugRelatedField(
         source='ingredient',
-        slug_field='measurment_unit',
+        slug_field='measurement_unit',
         read_only=True,
     )
 
     class Meta:
         model = IngredientAmount
         fields = (
-            'id', 'name', 'measurment_unit', 'amount',
+            'id', 'name', 'measurement_unit', 'amount',
         )
 
 

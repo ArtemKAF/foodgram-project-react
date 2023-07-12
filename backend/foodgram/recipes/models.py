@@ -44,7 +44,7 @@ class Ingredient(models.Model):
         blank=False,
         db_index=True,
     )
-    measurment_unit = models.CharField(
+    measurement_unit = models.CharField(
         verbose_name='Единица измерения',
         max_length=50,
         blank=False,
@@ -54,6 +54,12 @@ class Ingredient(models.Model):
         ordering = ('name', )
         verbose_name = _('Ingredient')
         verbose_name_plural = _('Ingredients')
+        constraints = (
+            models.UniqueConstraint(
+                fields=('name', 'measurement_unit', ),
+                name='%(app_label)s_%(class)s_unique_ingredients',
+            ),
+        )
 
     def __str__(self) -> str:
         return self.name
