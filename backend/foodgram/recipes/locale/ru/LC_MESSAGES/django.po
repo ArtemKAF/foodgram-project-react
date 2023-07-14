@@ -39,7 +39,7 @@ msgstr "Ингредиент"
 msgid "Ingredients"
 msgstr "Ингредиенты"
 
-#: foodgram/recipes/models.py:92
+#: foodgram/recipes/models.py:91
 msgid "The cooking time can not be less than one minute."
 msgstr "Время приготовления не может быть меньше одной минуты."
 
@@ -51,7 +51,7 @@ msgstr "Рецепт"
 msgid "Recipes"
 msgstr "Рецепты"
 
-#: foodgram/recipes/models.py:154
+#: foodgram/recipes/models.py:153
 msgid "The amount of the ingredient can not be less than one."
 msgstr "Количество игредиента не может быть меньше одного."
 
