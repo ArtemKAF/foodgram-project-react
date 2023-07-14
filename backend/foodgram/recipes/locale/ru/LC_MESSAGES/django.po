@@ -19,42 +19,46 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: foodgram/recipes/models.py:33
+#: foodgram/recipes/models.py:25
+msgid "%(value)s is not correct HEX color."
+msgstr "%(value)s не корректный шестнадцетиричный код цвета."
+
+#: foodgram/recipes/models.py:39
 msgid "Tag"
 msgstr "Тэг"
 
-#: foodgram/recipes/models.py:34
+#: foodgram/recipes/models.py:40
 msgid "Tags"
 msgstr "Тэги"
 
-#: foodgram/recipes/models.py:55
+#: foodgram/recipes/models.py:61
 msgid "Ingredient"
 msgstr "Ингредиент"
 
-#: foodgram/recipes/models.py:56
+#: foodgram/recipes/models.py:62
 msgid "Ingredients"
 msgstr "Ингредиенты"
 
-#: foodgram/recipes/models.py:86
+#: foodgram/recipes/models.py:92
 msgid "The cooking time can not be less than one minute."
 msgstr "Время приготовления не может быть меньше одной минуты."
 
-#: foodgram/recipes/models.py:120
+#: foodgram/recipes/models.py:126
 msgid "Recipe"
 msgstr "Рецепт"
 
-#: foodgram/recipes/models.py:121
+#: foodgram/recipes/models.py:127
 msgid "Recipes"
 msgstr "Рецепты"
 
-#: foodgram/recipes/models.py:148
+#: foodgram/recipes/models.py:154
 msgid "The amount of the ingredient can not be less than one."
 msgstr "Количество игредиента не может быть меньше одного."
 
-#: foodgram/recipes/models.py:146
+#: foodgram/recipes/models.py:162
 msgid "Ingredient amount"
 msgstr "Количество игредиента"
 
-#: foodgram/recipes/models.py:147
+#: foodgram/recipes/models.py:163
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"

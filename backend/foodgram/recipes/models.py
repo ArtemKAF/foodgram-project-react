@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -19,6 +19,12 @@ class Tag(models.Model):
         max_length=7,
         unique=True,
         blank=False,
+        validators=[
+            RegexValidator(
+                regex=r'^#[0-9a-fA-F]{6}$',
+                message=_('%(value)s is not correct HEX color.'),
+            ),
+        ],
     )
     slug = models.SlugField(
         verbose_name='Альтернативное название',
