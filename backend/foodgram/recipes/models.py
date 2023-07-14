@@ -79,6 +79,14 @@ class Recipe(models.Model):
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления, мин',
         blank=False,
+        validators=(
+            MinValueValidator(
+                limit_value=1,
+                message=_(
+                    'The cooking time can not be less than one minute.'
+                )
+            ),
+        )
     )
     image = models.ImageField(
         verbose_name='Изображение',
@@ -137,7 +145,7 @@ class IngredientAmount(models.Model):
             MinValueValidator(
                 limit_value=1,
                 message=_(
-                    'The amount of the ingredient cannot be less than one.'
+                    'The amount of the ingredient can not be less than one.'
                 )
             ),
         )
@@ -149,4 +157,7 @@ class IngredientAmount(models.Model):
         verbose_name_plural = _('Amounts of ingredients')
 
     def __str__(self):
-        return f'{self.amount} {self.ingredient.name} в {self.recipe.name}'
+        return (
+            f'{self.amount} {self.ingredient.measurement_unit} '
+            f'{self.ingredient.name} в {self.recipe.name}'
+        )
