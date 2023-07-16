@@ -62,3 +62,7 @@ msgstr "Количество игредиента"
 #: foodgram/recipes/models.py:163
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
+
+#: foodgram/recipes/admin.py:35
+msgid "Added in favorites"
+msgstr "Добавлено в избранное"

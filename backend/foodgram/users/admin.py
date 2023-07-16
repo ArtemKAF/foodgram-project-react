@@ -52,4 +52,6 @@ class CastomUserAdmin(UserAdmin):
     list_filter = (
         'email', 'username',
     )
-    ordering = ('last_name', 'first_name', )
+    ordering = (
+        'last_name', 'first_name',
+    )
