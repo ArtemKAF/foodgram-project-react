@@ -1,6 +1,6 @@
 from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from foodgram.recipes.utils.fields import Base64ImageField
-from foodgram.users.api.serializers import UserSerializer
+from foodgram.users.api.serializers import CastomUserSerializer
 from rest_framework import serializers
 
 
@@ -53,7 +53,7 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = CastomUserSerializer(read_only=True)
     ingredients = IngredientAmountSerializer(many=True, required=True)
     is_favorited = serializers.SerializerMethodField()
     image = Base64ImageField(required=True, allow_null=False)
