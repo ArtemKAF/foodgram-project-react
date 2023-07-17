@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
+from foodgram.recipes.models import (Ingredient, IngredientAmount, Recipe,
+                                     ShoppingCart, Tag)
 
 
 @admin.register(Tag)
@@ -51,3 +52,8 @@ class RecipeAdmin(admin.ModelAdmin):
         'name', 'author__username',
     )
     inlines = (IngredientAmountInline, )
+
+
+@admin.register(ShoppingCart)
+class ShoppingCartAdmin(admin.ModelAdmin):
+    ...

@@ -63,6 +63,18 @@ msgstr "Количество игредиента"
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
 
+#: foodgram/recipes/models.py:194
+msgid "Shopping cart"
+msgstr "Корзина покупок"
+
+#: foodgram/recipes/models.py:195
+msgid "Shopping carts"
+msgstr "Корзины покупок"
+
+#: foodgram/recipes/models.py:204
+msgid "Recipe %(recipe)s in shopping cart from %(buyer)s"
+msgstr "Рецепт %(recipe)s в корзине покупок %(buyer)s"
+
 #: foodgram/recipes/admin.py:35
 msgid "Added in favorites"
 msgstr "Добавлено в избранное"

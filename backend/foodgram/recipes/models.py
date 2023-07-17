@@ -173,3 +173,34 @@ class IngredientAmount(models.Model):
             f'{self.ingredient.name} {self.amount} '
             f'{self.ingredient.measurement_unit} в {self.recipe.name}'
         )
+
+
+class ShoppingCart(models.Model):
+    buyer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=False,
+        verbose_name='Покупатель',
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        blank=False,
+        verbose_name='Рецепт',
+    )
+
+    class Meta:
+        ordering = ('id', )
+        verbose_name = _('Shopping cart')
+        verbose_name_plural = _('Shopping carts')
+        constraints = (
+            models.UniqueConstraint(
+                fields=('buyer', 'recipe', ),
+                name=('%(app_label)s_%(class)s_unique_recipes_from_buyer'),
+            ),
+        )
+
+    def __str__(self):
+        return _(
+            'Recipe %(recipe)s in shopping cart from %(buyer)s'
+        ) % {'recipe': self.recipe.name, 'buyer': self.buyer.username}
