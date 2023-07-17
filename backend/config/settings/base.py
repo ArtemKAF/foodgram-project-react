@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'foodgram.users',
     'foodgram.recipes',
+    'foodgram.core',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -122,8 +123,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 6,
+    'DEFAULT_PAGINATION_CLASS': 'foodgram.core.pagination.DefaultPagination',
 }
 
 DJOSER = {
