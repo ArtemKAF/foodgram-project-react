@@ -193,6 +193,7 @@ class ShoppingCart(models.Model):
         ordering = ('id', )
         verbose_name = _('Shopping cart')
         verbose_name_plural = _('Shopping carts')
+        default_related_name = 'shopping_carts'
         constraints = (
             models.UniqueConstraint(
                 fields=('buyer', 'recipe', ),
