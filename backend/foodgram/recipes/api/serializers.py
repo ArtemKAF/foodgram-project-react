@@ -1,5 +1,5 @@
+from foodgram.core.utils.fields import Base64ImageField
 from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
-from foodgram.recipes.utils.fields import Base64ImageField
 from foodgram.users.api.serializers import CastomUserSerializer
 from rest_framework import serializers
 
