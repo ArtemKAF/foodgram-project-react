@@ -75,20 +75,34 @@ class RecipeSerializer(serializers.ModelSerializer):
             IngredientAmount.objects.get_or_create(
                 ingredient=ingredient['ingredient'],
                 amount=ingredient['amount'],
-                recipe=instance
+                recipe=instance,
             )
 
     def create(self, validated_data):
-        tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
-        recipe = Recipe.objects.create(**validated_data)
-        recipe.tags.add(*tags)
+        recipe = super().create(validated_data)
         self.add_ingredients(recipe, ingredients)
         return recipe
+
+    def update(self, instance, validated_data):
+        if 'ingredients' in validated_data:
+            ingredients = validated_data.pop('ingredients')
+            IngredientAmount.objects.filter(recipe=instance).delete()
+            self.add_ingredients(instance, ingredients)
+        super().update(instance, validated_data)
+        return instance
 
     class Meta:
         model = Recipe
         fields = (
             'id', 'tags', 'author', 'ingredients', 'is_favorited', 'name',
             'image', 'text', 'cooking_time',
+        )
+
+
+class ShortRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            'id', 'name', 'image', 'cooking_time',
         )
