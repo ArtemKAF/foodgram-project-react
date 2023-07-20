@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework
 from foodgram.recipes.models import Recipe, Tag
 from rest_framework.filters import SearchFilter
@@ -18,9 +19,11 @@ class RecipeFilter(rest_framework.FilterSet):
     )
     is_favorited = rest_framework.BooleanFilter(
         method='is_favorited_filter',
+        label=_('Is favorited'),
     )
     is_in_shopping_cart = rest_framework.BooleanFilter(
         method='is_in_shopping_cart_filter',
+        label=_('Is in shopping cart'),
     )
 
     class Meta:

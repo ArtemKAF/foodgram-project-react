@@ -75,3 +75,11 @@ msgstr "Рецепт %(recipe)s в корзине покупок %(buyer)s"
 #: foodgram/recipes/admin.py:35
 msgid "Added in favorites"
 msgstr "Добавлено в избранное"
+
+#: foodgram/recipes/api/filters.py:22
+msgid "Is favorited"
+msgstr "Находится в избранном"
+
+#: foodgram/recipes/api/filters.py:26
+msgid "Is in shopping cart"
+msgstr "Находится в корзине покупок"
