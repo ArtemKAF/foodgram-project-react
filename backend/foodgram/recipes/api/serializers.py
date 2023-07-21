@@ -101,6 +101,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Recipe
         fields = (

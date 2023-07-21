@@ -1,6 +1,8 @@
 version: '3.3'
 volumes:
   pg_data:
+  static_data:
+  media_data:
 
 services:
 
@@ -19,12 +21,35 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
+    depends_on:
+      db:
+        condition: service_started
 
-  nginx:
-    image: nginx:1.19.3
+  gateway:
+    image: ${GATEWAY_VERSION}
     ports:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
+      - media_data:/var/html/media/
+      - static_data:/var/html/static/
+    depends_on:
+      frontend:
+        condition: service_completed_successfully
+
+  backend:
+    build:
+      context: ../backend/
+      dockerfile: Dockerfile
+      args:
+        - PYTHON_VERSION=${PYTHON_VERSION}
+        - GUNICORN_VERSION=${GUNICORN_VERSION}
+    env_file: ../backend/.env
+    volumes:
+      - media_data:/app/foodgram/media/
+      - static_data:/app/staticfiles/
+    depends_on:
+      gateway:
+        condition: service_started
