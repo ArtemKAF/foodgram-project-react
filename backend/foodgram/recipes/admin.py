@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from foodgram.recipes.models import (Ingredient, IngredientAmount, Recipe,
-                                     ShoppingCart, Tag)
+from foodgram.recipes.models import (FavoriteRecipe, Ingredient,
+                                     IngredientAmount, Recipe, ShoppingCart,
+                                     Tag)
 
 
 @admin.register(Tag)
@@ -31,7 +32,7 @@ class IngredientAmountInline(admin.TabularInline):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     def get_favorite_count(self, obj):
-        return obj.favorite.all().count()
+        return obj.favorite_recipes.all().count()
 
     get_favorite_count.short_description = _('Added in favorites')
 
@@ -52,6 +53,11 @@ class RecipeAdmin(admin.ModelAdmin):
         'name', 'author__username',
     )
     inlines = (IngredientAmountInline, )
+
+
+@admin.register(FavoriteRecipe)
+class FavoriteRecipeAdmin(admin.ModelAdmin):
+    ...
 
 
 @admin.register(ShoppingCart)

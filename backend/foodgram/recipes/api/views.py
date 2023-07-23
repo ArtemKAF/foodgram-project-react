@@ -44,16 +44,22 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return super().update(request, args=args, kwargs=kwargs)
 
     @action(
-        methods=('get', 'delete', ),
+        methods=('post', 'delete', ),
         detail=True,
         permission_classes=(permissions.IsAuthenticated, ),
     )
     def favorite(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
         favorited = request.user
-        if request.method == 'GET':
-            recipe.favorite.add(favorited)
+        if request.method == 'POST':
+            recipe.favorite_recipes.create(
+                recipe=recipe,
+                user=favorited,
+            )
             serializer = ShortRecipeSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        recipe.favorite.remove(favorited)
+        recipe.favorite_recipes.delete(
+            recipe=recipe,
+            user=favorited,
+        )
         return Response(status=status.HTTP_204_NO_CONTENT)

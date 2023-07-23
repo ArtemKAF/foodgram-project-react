@@ -28,47 +28,63 @@ msgstr "Тэг"
 msgid "Tags"
 msgstr "Тэги"
 
-#: foodgram/recipes/models.py:61
+#: foodgram/recipes/models.py:67
 msgid "Ingredient"
 msgstr "Ингредиент"
 
-#: foodgram/recipes/models.py:62
+#: foodgram/recipes/models.py:68
 msgid "Ingredients"
 msgstr "Ингредиенты"
 
-#: foodgram/recipes/models.py:91
+#: foodgram/recipes/models.py:99
 msgid "The cooking time can not be less than one minute."
 msgstr "Время приготовления не может быть меньше одной минуты."
 
-#: foodgram/recipes/models.py:126
+#: foodgram/recipes/models.py:128
 msgid "Recipe"
 msgstr "Рецепт"
 
-#: foodgram/recipes/models.py:127
+#: foodgram/recipes/models.py:129
 msgid "Recipes"
 msgstr "Рецепты"
 
 #: foodgram/recipes/models.py:153
+msgid "Favorite recipe"
+msgstr "Избранный рецепт"
+
+#: foodgram/recipes/models.py:154
+msgid "Favorite recipes"
+msgstr "Избранные рецепты"
+
+#: foodgram/recipes/models.py:164
+msgid "Recipe %(recipe)s in the %(favorited)s favorites"
+msgstr "Рецепт %(recipe)s в избранном у %(favorited)s"
+
+#: foodgram/recipes/models.py:188
 msgid "The amount of the ingredient can not be less than one."
 msgstr "Количество игредиента не может быть меньше одного."
 
-#: foodgram/recipes/models.py:162
+#: foodgram/recipes/models.py:197
 msgid "Ingredient amount"
-msgstr "Количество игредиента"
+msgstr "Количество ингредиента"
 
-#: foodgram/recipes/models.py:163
+#: foodgram/recipes/models.py:198
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
 
-#: foodgram/recipes/models.py:194
+#: foodgram/recipes/models.py:209
+msgid "in"
+msgstr "в"
+
+#: foodgram/recipes/models.py:230
 msgid "Shopping cart"
 msgstr "Корзина покупок"
 
-#: foodgram/recipes/models.py:195
+#: foodgram/recipes/models.py:231
 msgid "Shopping carts"
 msgstr "Корзины покупок"
 
-#: foodgram/recipes/models.py:204
+#: foodgram/recipes/models.py:241
 msgid "Recipe %(recipe)s in shopping cart from %(buyer)s"
 msgstr "Рецепт %(recipe)s в корзине покупок %(buyer)s"
 

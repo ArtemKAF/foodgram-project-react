@@ -31,11 +31,17 @@ class RecipeFilter(rest_framework.FilterSet):
         fields = ('author', 'tags', )
 
     def is_favorited_filter(self, queryset, name, value):
-        if self.request.user.is_authenticated and value:
-            return queryset.filter(favorite=self.request.user.pk)
+        if self.request.user.is_authenticated and not value is None:
+            if value:
+                return queryset.filter(favorite_recipes__user=self.request.user)
+            else:
+                return queryset.exclude(favorite_recipes__user=self.request.user)
         return queryset
 
     def is_in_shopping_cart_filter(self, queryset, name, value):
-        if self.request.user.is_authenticated and value:
-            return queryset.filter(shopping_carts__buyer=self.request.user)
+        if self.request.user.is_authenticated and not value is None:
+            if value:
+                return queryset.filter(shopping_carts__buyer=self.request.user)
+            else:
+                return queryset.exclude(shopping_carts__buyer=self.request.user)
         return queryset

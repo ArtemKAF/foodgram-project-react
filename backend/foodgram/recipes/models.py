@@ -9,7 +9,7 @@ User = get_user_model()
 class Tag(models.Model):
     name = models.CharField(
         verbose_name='Название',
-        max_length=150,
+        max_length=200,
         unique=True,
         blank=False,
         db_index=True,
@@ -28,7 +28,7 @@ class Tag(models.Model):
     )
     slug = models.SlugField(
         verbose_name='Альтернативное название',
-        max_length=150,
+        max_length=200,
         unique=True,
         blank=False,
         db_index=True,
@@ -38,6 +38,12 @@ class Tag(models.Model):
         ordering = ('name', )
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
+        constraints = (
+            models.UniqueConstraint(
+                fields=('name', 'color', ),
+                name='%(app_label)s_%(class)s_unique_tags_color',
+            ),
+        )
 
     def __str__(self) -> str:
         return self.name
@@ -46,13 +52,13 @@ class Tag(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(
         verbose_name='Название',
-        max_length=250,
+        max_length=200,
         blank=False,
         db_index=True,
     )
     measurement_unit = models.CharField(
         verbose_name='Единица измерения',
-        max_length=50,
+        max_length=200,
         blank=False,
     )
 
@@ -63,7 +69,9 @@ class Ingredient(models.Model):
         constraints = (
             models.UniqueConstraint(
                 fields=('name', 'measurement_unit', ),
-                name='%(app_label)s_%(class)s_unique_ingredients',
+                name=(
+                    '%(app_label)s_%(class)s_unique_ingredients_measurment_unit'
+                ),
             ),
         )
 
@@ -74,7 +82,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(
         verbose_name='Название',
-        max_length=250,
+        max_length=200,
         blank=False,
         db_index=True,
     )
@@ -114,21 +122,48 @@ class Recipe(models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
-    favorite = models.ManyToManyField(
-        User,
-        verbose_name='Лайкнувшие',
-        related_name='favorite_recipes',
-        blank=True,
-    )
 
     class Meta:
         ordering = ('-pub_date', )
         verbose_name = _('Recipe')
         verbose_name_plural = _('Recipes')
         default_related_name = 'recipes'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('name', 'author', ),
+                name='%(app_label)s_%(class)s_unique_recipe_from_author',
+            ),
+        )
 
     def __str__(self):
         return self.name
+
+
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = _('Favorite recipe')
+        verbose_name_plural = _('Favorite recipes')
+        default_related_name = 'favorite_recipes'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('user', 'recipe', ),
+                name='%(app_label)s_%(class)s_unique_recipe_in_favorite',
+            ),
+        )
+    
+    def __str__(self):
+        return _(
+            'Recipe %(recipe)s in the %(favorited)s favorites'
+        ) % {'recipe': self.recipe.name, 'favorited': self.user.username}
 
 
 class IngredientAmount(models.Model):
@@ -164,14 +199,15 @@ class IngredientAmount(models.Model):
         constraints = (
             models.UniqueConstraint(
                 fields=('ingredient', 'recipe', ),
-                name='%(app_label)s_%(class)s_unique_ingredients_in_recipe',
+                name='%(app_label)s_%(class)s_unique_ingredient_in_recipe',
             ),
         )
 
     def __str__(self):
         return (
             f'{self.ingredient.name} {self.amount} '
-            f'{self.ingredient.measurement_unit} в {self.recipe.name}'
+            f'{self.ingredient.measurement_unit} ' + _('in')
+            + f' {self.recipe.name}'
         )
 
 
@@ -197,7 +233,7 @@ class ShoppingCart(models.Model):
         constraints = (
             models.UniqueConstraint(
                 fields=('buyer', 'recipe', ),
-                name=('%(app_label)s_%(class)s_unique_recipes_from_buyer'),
+                name=('%(app_label)s_%(class)s_unique_recipe_from_buyer'),
             ),
         )
 
