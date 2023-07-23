@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
 from foodgram.recipes.api.serializers import (IngredientSerializer,
@@ -52,14 +53,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
         favorited = request.user
         if request.method == 'POST':
-            recipe.favorite_recipes.create(
-                recipe=recipe,
-                user=favorited,
-            )
+            try:
+                recipe.favorite_recipes.create(
+                    recipe=recipe,
+                    user=favorited,
+                )
+            except IntegrityError as e:
+                return Response(
+                    {'errors': e.args},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             serializer = ShortRecipeSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        recipe.favorite_recipes.delete(
-            recipe=recipe,
-            user=favorited,
-        )
+        recipe.favorite_recipes.filter(user=favorited).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

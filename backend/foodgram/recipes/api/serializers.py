@@ -63,7 +63,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if request is None or not request.user.is_authenticated:
             return False
-        return request.user.favorite_recipes.filter(pk=obj.pk).exists()
+        return request.user.favorite_recipes.filter(recipe=obj).exists()
 
     def to_representation(self, instance):
         self.fields['tags'] = TagSerializer(many=True)
