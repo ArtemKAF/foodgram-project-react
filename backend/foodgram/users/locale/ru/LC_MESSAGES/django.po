@@ -16,39 +16,59 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: forms.py:20
-msgid "This email alredy been taken."
-msgstr "Этот email уже используется."
-#: models.py:12
+
+#: models.py:9
+msgid "email"
+msgstr "Электронная почта"
+
+#: models.py:13
 msgid "Required. 254 characters or fewer."
 msgstr "Обязательное поле. Не более 254 символов."
-#: models.py:19 models.py:27
-msgid "Required. 150 characters or fewer."
-msgstr "Обязательное поле. Не более 254 символов."
-#: models.py:21
+
+#: models.py:16
 msgid "Name"
 msgstr "Имя"
-#: models.py:29
+
+#: models.py:22
 msgid "Surname"
 msgstr "Фамилия"
-#: models.py:36
+
+#: models.py:28
+msgid "Password"
+msgstr "Пароль"
+
+#: models.py:37
 msgid "User"
 msgstr "Пользователь"
-#: models.py:37
+
+#: models.py:38
 msgid "Users"
 msgstr "Пользователи"
-#: models.py:48
+
+#: models.py:49
 msgid "Author"
 msgstr "Автор"
-#: models.py:54
+
+#: models.py:55
 msgid "Subscriber"
 msgstr "Подписчик"
-#: models.py:59
+
+#: models.py:60
 msgid "Subscription"
 msgstr "Подписка"
-#: models.py:60
+
+#: models.py:61
 msgid "Subscriptions"
 msgstr "Подписки"
-#: models.py:64
+
+#: models.py:75
 msgid "subscribed to"
 msgstr "подписан на"
+
+#: forms.py:20
+msgid "This email alredy been taken."
+msgstr "Эта электронная почта уже существует."
+
+#: constants.py:3
+msgid "Required. 150 characters or fewer."
+msgstr "Обязательное поле. Не более 150 символов."

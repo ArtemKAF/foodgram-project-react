@@ -1,32 +1,33 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from foodgram.users.constants import HELP_TEXT_150_CHARS
 
 
 class User(AbstractUser):
     email = models.EmailField(
+        _('email'),
         max_length=254,
         unique=True,
         blank=False,
-        help_text=_(
-            'Required. 254 characters or fewer.'
-        ),
+        help_text=_('Required. 254 characters or fewer.'),
     )
     first_name = models.CharField(
+        verbose_name=_('Name'),
         max_length=150,
         blank=False,
-        help_text=_(
-            'Required. 150 characters or fewer.'
-        ),
-        verbose_name=_('Name'),
+        help_text=HELP_TEXT_150_CHARS,
     )
     last_name = models.CharField(
+        verbose_name=_('Surname'),
         max_length=150,
         blank=False,
-        help_text=_(
-            'Required. 150 characters or fewer.'
-        ),
-        verbose_name=_('Surname'),
+        help_text=HELP_TEXT_150_CHARS,
+    )
+    password = models.CharField(
+        _('Password'),
+        max_length=128,
+        help_text=HELP_TEXT_150_CHARS,
     )
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', ]
     USERNAME_FIELD = 'email'
@@ -37,7 +38,7 @@ class User(AbstractUser):
         verbose_name_plural = _('Users')
 
     def __str__(self):
-        return f'{self.username}'
+        return self.username
 
 
 class Subscription(models.Model):
