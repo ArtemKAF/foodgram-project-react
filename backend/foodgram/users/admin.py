@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from foodgram.users.forms import UserAdminChangeForm, UserAdminCreationForm
+from foodgram.users.models import Subscription
 
 User = get_user_model()
 
@@ -55,3 +56,8 @@ class CastomUserAdmin(UserAdmin):
     ordering = (
         'last_name', 'first_name',
     )
+
+
+@admin.register(Subscription)
+class CastomSubscriptionAdmin(admin.ModelAdmin):
+    ...
