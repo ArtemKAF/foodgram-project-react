@@ -56,6 +56,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     author = CastomUserSerializer(read_only=True)
     ingredients = IngredientAmountSerializer(many=True, required=True)
     is_favorited = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
     image = Base64ImageField(required=True, allow_null=False)
     text = serializers.CharField(source='description', required=True)
 
@@ -64,6 +65,12 @@ class RecipeSerializer(serializers.ModelSerializer):
         if request is None or not request.user.is_authenticated:
             return False
         return request.user.favorite_recipes.filter(recipe=obj).exists()
+    
+    def get_is_in_shopping_cart(self, obj):
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return False
+        return request.user.shopping_carts.filter(recipe=obj).exists()
 
     def to_representation(self, instance):
         self.fields['tags'] = TagSerializer(many=True)
@@ -95,8 +102,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = (
-            'id', 'tags', 'author', 'ingredients', 'is_favorited', 'name',
-            'image', 'text', 'cooking_time',
+            'id', 'tags', 'author', 'ingredients', 'is_favorited',
+            'is_in_shopping_cart', 'name', 'image', 'text', 'cooking_time',
         )
 
 

@@ -99,3 +99,7 @@ msgstr "Находится в избранном"
 #: foodgram/recipes/api/filters.py:26
 msgid "Is in shopping cart"
 msgstr "Находится в корзине покупок"
+
+#: foodgram/recipes/api/utils.py:21
+msgid "Shopping list:"
+msgstr "Список покупок:"

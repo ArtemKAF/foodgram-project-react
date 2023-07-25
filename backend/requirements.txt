@@ -5,3 +5,4 @@ djangorestframework==3.14.0
 django-filter==23.2
 djoser==2.2.0
 pillow==10.0.0
+reportlab==4.0.4

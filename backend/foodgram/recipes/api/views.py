@@ -1,11 +1,14 @@
 from django.db import IntegrityError
+from django.db.models import Sum
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
 from foodgram.recipes.api.serializers import (IngredientSerializer,
                                               RecipeSerializer,
                                               ShortRecipeSerializer,
                                               TagSerializer)
-from foodgram.recipes.models import Ingredient, Recipe, Tag
+from foodgram.recipes.api.utils import generate_shopping_list_in_pdf
+from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -67,3 +70,44 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         recipe.favorite_recipes.filter(user=favorited).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        methods=('post', 'delete', ),
+        detail=True,
+        permission_classes=(permissions.IsAuthenticated, ),
+    )
+    def shopping_cart(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
+        buyer = request.user
+        if request.method == 'POST':
+            try:
+                recipe.shopping_carts.create(
+                    recipe=recipe,
+                    buyer=buyer,
+                )
+            except IntegrityError as e:
+                return Response(
+                    {'errors': e.args},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            serializer = ShortRecipeSerializer(recipe)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        recipe.shopping_carts.filter(buyer=buyer).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        methods=('get', ),
+        detail=False,
+        permission_classes=(permissions.IsAuthenticated, ),
+    )
+    def download_shopping_cart(self, request, *args, **kwargs):
+        shopping_list = IngredientAmount.objects.filter(
+            recipe__shopping_carts__buyer=request.user
+        ).values(
+            'ingredient__name',
+            'ingredient__measurement_unit'
+        ).annotate(Sum('amount'))
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = ('attachment; filename=filename')
+        generate_shopping_list_in_pdf(shopping_list, response)        
+        return response
