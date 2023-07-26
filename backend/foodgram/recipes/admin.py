@@ -38,13 +38,12 @@ class RecipeAdmin(admin.ModelAdmin):
 
     list_display = (
         'name', 'author', 'description', 'cooking_time', 'pub_date',
-        'get_favorite_count',
     )
     exclude = (
         'favorite',
     )
     readonly_fields = (
-        'get_favorite_count',
+        'get_favorite_count', 'author',
     )
     list_filter = (
         'author__username', 'name', 'tags__name',
