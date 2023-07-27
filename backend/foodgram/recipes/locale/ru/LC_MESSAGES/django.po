@@ -16,90 +16,103 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: foodgram/recipes/models.py:25
+
+#: models.py:25
 msgid "%(value)s is not correct HEX color."
 msgstr "%(value)s не корректный шестнадцетиричный код цвета."
 
-#: foodgram/recipes/models.py:39
+#: models.py:39
 msgid "Tag"
 msgstr "Тэг"
 
-#: foodgram/recipes/models.py:40
+#: models.py:40
 msgid "Tags"
 msgstr "Тэги"
 
-#: foodgram/recipes/models.py:67
+#: models.py:67
 msgid "Ingredient"
 msgstr "Ингредиент"
 
-#: foodgram/recipes/models.py:68
+#: models.py:68
 msgid "Ingredients"
 msgstr "Ингредиенты"
 
-#: foodgram/recipes/models.py:99
+#: models.py:99
 msgid "The cooking time can not be less than one minute."
 msgstr "Время приготовления не может быть меньше одной минуты."
 
-#: foodgram/recipes/models.py:128
+#: models.py:128
 msgid "Recipe"
 msgstr "Рецепт"
 
-#: foodgram/recipes/models.py:129
+#: models.py:129
 msgid "Recipes"
 msgstr "Рецепты"
 
-#: foodgram/recipes/models.py:153
+#: models.py:153
 msgid "Favorite recipe"
 msgstr "Избранный рецепт"
 
-#: foodgram/recipes/models.py:154
+#: models.py:154
 msgid "Favorite recipes"
 msgstr "Избранные рецепты"
 
-#: foodgram/recipes/models.py:164
+#: models.py:164
 msgid "Recipe %(recipe)s in the %(favorited)s favorites"
 msgstr "Рецепт %(recipe)s в избранном у %(favorited)s"
 
-#: foodgram/recipes/models.py:188
+#: models.py:188
 msgid "The amount of the ingredient can not be less than one."
 msgstr "Количество игредиента не может быть меньше одного."
 
-#: foodgram/recipes/models.py:197
+#: models.py:197
 msgid "Ingredient amount"
 msgstr "Количество ингредиента"
 
-#: foodgram/recipes/models.py:198
+#: models.py:198
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
 
-#: foodgram/recipes/models.py:209
+#: models.py:209
 msgid "in"
 msgstr "в"
 
-#: foodgram/recipes/models.py:230
+#: models.py:230
 msgid "Shopping cart"
 msgstr "Корзина покупок"
 
-#: foodgram/recipes/models.py:231
+#: models.py:231
 msgid "Shopping carts"
 msgstr "Корзины покупок"
 
-#: foodgram/recipes/models.py:241
+#: models.py:241
 msgid "Recipe %(recipe)s in shopping cart from %(buyer)s"
 msgstr "Рецепт %(recipe)s в корзине покупок %(buyer)s"
 
-#: foodgram/recipes/admin.py:35
+#: admin.py:35
 msgid "Added in favorites"
 msgstr "Добавлено в избранное"
 
-#: foodgram/recipes/api/filters.py:22
+#: ./api/filters.py:22
 msgid "Is favorited"
 msgstr "Находится в избранном"
 
-#: foodgram/recipes/api/filters.py:26
+#: ./api/filters.py:26
 msgid "Is in shopping cart"
 msgstr "Находится в корзине покупок"
 
-#: foodgram/recipes/api/utils.py:21
+#: ./api/utils.py:21
 msgid "Shopping list:"
 msgstr "Список покупок:"
+
+#: ./api/serializers.py:109
+msgid "Do you already have a recipe with this name!"
+msgstr "У Вас уже есть рецепт с таким названием!"
+
+#: ./api/views.py:62
+msgid "The recipe has already been added to favorite!"
+msgstr "Рецепт уже добавлен в избранное!"
+
+#: ./api/views.py:85
+msgid "The recipe has already been added to shopping cart!"
+msgstr "Рецепт уже добавлен в корзину покупок!"

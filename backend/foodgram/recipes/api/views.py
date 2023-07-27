@@ -2,6 +2,7 @@ from django.db import IntegrityError
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
 from foodgram.recipes.api.permissions import IsAuthorAdminOrReadOnly
 from foodgram.recipes.api.serializers import (IngredientSerializer,
@@ -54,16 +55,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
         favorited = request.user
         if request.method == 'POST':
-            try:
-                recipe.favorite_recipes.create(
-                    recipe=recipe,
-                    user=favorited,
-                )
-            except IntegrityError as e:
+            if recipe.favorite_recipes.filter(user=favorited).exists():
                 return Response(
-                    {'errors': e.args},
+                    {
+                        'errors':
+                        _('The recipe has already been added to favorite!')
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            recipe.favorite_recipes.create(user=favorited)
             serializer = ShortRecipeSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         recipe.favorite_recipes.filter(user=favorited).delete()
@@ -78,16 +78,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
         buyer = request.user
         if request.method == 'POST':
-            try:
-                recipe.shopping_carts.create(
-                    recipe=recipe,
-                    buyer=buyer,
-                )
-            except IntegrityError as e:
+            if recipe.shopping_carts.filter(buyer=buyer).exists():
                 return Response(
-                    {'errors': e.args},
+                    {
+                        'errors':
+                        _('The recipe has already been added to shopping cart!')
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            recipe.shopping_carts.create(buyer=buyer)
             serializer = ShortRecipeSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         recipe.shopping_carts.filter(buyer=buyer).delete()
