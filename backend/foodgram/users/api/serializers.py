@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from foodgram.recipes.models import Recipe
 from foodgram.users.models import Subscription
-from rest_framework import serializers, validators
+from rest_framework import serializers
 
 User = get_user_model()
 

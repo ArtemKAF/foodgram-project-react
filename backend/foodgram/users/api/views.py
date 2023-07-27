@@ -4,7 +4,6 @@ from djoser.views import UserViewSet
 from foodgram.users.api.serializers import SubscriptionSerializer
 from foodgram.users.models import Subscription
 from rest_framework import mixins, permissions, status, viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
 
 User = get_user_model()
