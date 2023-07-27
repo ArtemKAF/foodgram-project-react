@@ -72,3 +72,11 @@ msgstr "Эта электронная почта уже существует."
 #: constants.py:3
 msgid "Required. 150 characters or fewer."
 msgstr "Обязательное поле. Не более 150 символов."
+
+#: ./api/serializers.py.py:88
+msgid "You can not subscribe to yourself!"
+msgstr "Нельзя подписаться на самого себя!"
+
+#: ./api/serializers.py.py:93
+msgid "You are already subscribed to this user!"
+msgstr "Вы уже подписаны на этого пользователя!'"
