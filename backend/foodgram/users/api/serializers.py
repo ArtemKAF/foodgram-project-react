@@ -1,3 +1,8 @@
+"""Модуль с сериализаторами приложения пользователей.
+
+Описывает классы сериализаторов для преобразования данных, поступающих в
+приложение отдаваемых приложением при соответствующих запросах.
+"""
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
@@ -10,6 +15,8 @@ User = get_user_model()
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
+    """Класс сериализатора для создания пользователей.
+    """
 
     class Meta(UserCreateSerializer.Meta):
         fields = (
@@ -22,6 +29,9 @@ class UserRegistrationSerializer(UserCreateSerializer):
 
 
 class CastomUserSerializer(UserSerializer):
+    """Класс сериализатора для получения информации о пользователях.
+    """
+
     is_subscribed = serializers.SerializerMethodField()
 
     class Meta(UserCreateSerializer.Meta):
@@ -39,6 +49,11 @@ class CastomUserSerializer(UserSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для получения информации о рецептах.
+
+    Необходим для формирования данных о рецептах авторов, на которых подписан
+    пользователь.
+    """
 
     class Meta:
         model = Recipe
@@ -51,6 +66,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class SubscriptionSerializer(CastomUserSerializer):
+    """Класс сериализатора для сериализации данных о подписках.
+    """
+
     recipes = serializers.SerializerMethodField(read_only=True)
     recipes_count = serializers.SerializerMethodField(read_only=True)
 

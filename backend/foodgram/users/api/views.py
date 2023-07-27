@@ -1,3 +1,8 @@
+"""Модуль представлений приложения пользователей.
+
+Описывает классы представлений для обработки запросов к проекту, связанных с
+приложением пользователй.
+"""
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
@@ -10,9 +15,20 @@ User = get_user_model()
 
 
 class CastomUserViewSet(UserViewSet):
+    """Класс представления пользователей.
+
+    Отвечает за обработку запросов для работы с пользователями. Унаследован от
+    класса представления пользователей Django.
+    """
+
     ...
 
 class SubscriptionListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """Класс представления списка подписок пользователей.
+
+    Отвечает за обработку запросов на получения списка подписок пользователей.
+    """
+
     serializer_class = SubscriptionSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
@@ -23,6 +39,12 @@ class SubscriptionListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 class SubscriptionViewSet(mixins.CreateModelMixin,
                           mixins.DestroyModelMixin,
                           viewsets.GenericViewSet):
+    """Класс представления создания и удаления подписок пользователей.
+
+    Отвечает за обработку запросов на создание/удаление подписки на
+    пользователя.
+    """
+
     queryset = User.objects.all()
     serializer_class = SubscriptionSerializer
     permission_classes = (permissions.IsAuthenticated, )

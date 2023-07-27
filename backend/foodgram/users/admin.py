@@ -1,3 +1,8 @@
+"""Модуль регистрации моделей из приложения пользователей в админ зоне проекта.
+
+Описывает классы с настройками регистрации моделей из приложения пользователей
+в админ зоне проекта для более комфортной работы с данными в моделях.
+"""
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
@@ -10,6 +15,9 @@ User = get_user_model()
 
 @admin.register(User)
 class CastomUserAdmin(UserAdmin):
+    """Класс для настройки регистрации модели пользователей в админ зоне.
+    """
+
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
     fieldsets = (
@@ -60,4 +68,6 @@ class CastomUserAdmin(UserAdmin):
 
 @admin.register(Subscription)
 class CastomSubscriptionAdmin(admin.ModelAdmin):
+    """Класс для  настройки регистрации модели подписок в админ зоне.
+    """
     ...

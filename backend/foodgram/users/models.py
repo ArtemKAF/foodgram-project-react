@@ -1,3 +1,8 @@
+"""Модуль создания, настройки и управления моделями пользователей и подписок.
+
+Описывает модели и методы для настройки и управления пользователями в проекте.
+Модель пользователя основана на модели AbstractUser Django.
+"""
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -5,6 +10,23 @@ from foodgram.users.constants import HELP_TEXT_150_CHARS
 
 
 class User(AbstractUser):
+    """Модель пользователя.
+
+    При создании пользователя все поля обязательны для заполнения.
+
+    Attributes:
+        email(str):
+            Поле для электронная почта пользователя. Используеся для
+            аутентификации.
+        username(str):
+            Поле для никнэйма пользователя.
+        first_name(str):
+            Поле для имени пользователя.
+        last_name(str):
+            Поле для фамилии пользователя.
+        password(str):
+            Поле для пароля пользователя. Используется для аутентификации.
+    """
     email = models.EmailField(
         _('email'),
         max_length=254,
@@ -42,6 +64,16 @@ class User(AbstractUser):
 
 
 class Subscription(models.Model):
+    """Модель подписок пользователей друг на друга.
+
+    При создании подписки все поля обязательны для заполнения.
+
+    Attributes:
+        author(int):
+            Поле ForeignKey на пользователя, на которого подписываются.
+        subscriber(int):
+            Поле ForeignKey на пользователя, который подписывается.
+    """
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
