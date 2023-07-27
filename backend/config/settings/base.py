@@ -121,7 +121,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_PAGINATION_CLASS': 'foodgram.core.pagination.DefaultPagination',
 }
@@ -134,8 +134,8 @@ DJOSER = {
         'user_create': 'foodgram.users.api.serializers.UserRegistrationSerializer',
     },
     'PERMISSIONS': {
-        'user_list': ['rest_framework.permissions.AllowAny'],
-        'user': ['rest_framework.permissions.IsAuthenticated'],
+        'user_list': ['rest_framework.permissions.IsAuthenticated'],
+        'user': ['rest_framework.permissions.AllowAny'],
     },
     'HIDE_USERS': False,
 }

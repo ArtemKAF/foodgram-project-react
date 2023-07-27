@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
+from foodgram.recipes.api.permissions import IsAuthorAdminOrReadOnly
 from foodgram.recipes.api.serializers import (IngredientSerializer,
                                               RecipeSerializer,
                                               ShortRecipeSerializer,
@@ -37,15 +38,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         'tags', 'ingredients',
     )
     serializer_class = RecipeSerializer
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (IsAuthorAdminOrReadOnly, )
     filterset_class = RecipeFilter
     http_method_names = ('get', 'post', 'patch', 'delete', )
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
-    def update(self, request, *args, **kwargs):
-        return super().update(request, args=args, kwargs=kwargs)
 
     @action(
         methods=('post', 'delete', ),
