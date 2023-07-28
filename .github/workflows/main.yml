@@ -159,7 +159,7 @@ jobs:
             cd foodgram/
             rm -f .env
             touch .env
-            echo DB_IMAGE=${{ vars.DB_IMAGE }} > .env
+            echo DB_IMAGE=${{ vars.DB_IMAGE }} >> .env
             echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
             echo POSTGRES_DB=${{ secrets.DATABASE_URL }} >> .env
             echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
