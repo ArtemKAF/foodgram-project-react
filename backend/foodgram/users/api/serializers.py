@@ -85,7 +85,7 @@ class SubscriptionSerializer(CastomUserSerializer):
         request = self.context.get('request')
         limit = request.GET.get('recipes_limit')
         queryset = obj.recipes.all()
-        if not limit is None:
+        if limit is not None:
             queryset = queryset[:int(limit)]
         return RecipeSerializer(queryset, many=True).data
 

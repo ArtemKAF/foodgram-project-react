@@ -7,7 +7,7 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 
 class IsAuthorAdminOrReadOnly(BasePermission):
-    """Класс прав доступа к изменению объектов только автору или администратору.
+    """Класс прав доступа к изменению объектов только автору/администратору.
     """
     def has_permission(self, request, view):
         return bool(

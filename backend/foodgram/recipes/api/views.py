@@ -101,7 +101,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 return Response(
                     {
                         'errors':
-                        _('The recipe has already been added to shopping cart!')
+                        _(
+                            'The recipe has already been added to shopping '
+                            'cart!'
+                        )
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -125,5 +128,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).annotate(Sum('amount'))
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = ('attachment; filename=filename')
-        generate_shopping_list_in_pdf(shopping_list, response)        
+        generate_shopping_list_in_pdf(shopping_list, response)
         return response

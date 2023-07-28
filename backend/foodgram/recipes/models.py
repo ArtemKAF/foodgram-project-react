@@ -99,7 +99,7 @@ class Ingredient(models.Model):
             models.UniqueConstraint(
                 fields=('name', 'measurement_unit', ),
                 name=(
-                    '%(app_label)s_%(class)s_unique_ingredients_measurment_unit'
+                    '%(app_label)s_%(class)s_unique_ingredient_measurment_unit'
                 ),
             ),
         )
@@ -222,7 +222,7 @@ class FavoriteRecipe(models.Model):
                 name='%(app_label)s_%(class)s_unique_recipe_in_favorite',
             ),
         )
-    
+
     def __str__(self):
         return _(
             'Recipe %(recipe)s in the %(favorited)s favorites'

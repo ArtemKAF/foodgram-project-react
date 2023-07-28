@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from foodgram.core.utils.fields import Base64ImageField
 from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from foodgram.users.api.serializers import CastomUserSerializer
-from rest_framework import serializers, validators
+from rest_framework import serializers
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -81,7 +81,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         if request is None or not request.user.is_authenticated:
             return False
         return request.user.favorite_recipes.filter(recipe=obj).exists()
-    
+
     def get_is_in_shopping_cart(self, obj):
         request = self.context.get('request')
         if request is None or not request.user.is_authenticated:
@@ -114,14 +114,16 @@ class RecipeSerializer(serializers.ModelSerializer):
             self.add_ingredients(instance, ingredients)
         super().update(instance, validated_data)
         return instance
-    
+
     def validate(self, data):
         errors = {}
         if Recipe.objects.filter(
             name=data.get('name'),
             author=self.context.get('request').user.pk
         ).exists():
-            errors['exists'] = _('Do you already have a recipe with this name!')
+            errors['exists'] = _(
+                'Do you already have a recipe with this name!'
+            )
         if errors:
             raise serializers.ValidationError(errors)
         return super(RecipeSerializer, self).validate(data)

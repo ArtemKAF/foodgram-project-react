@@ -23,6 +23,7 @@ class CastomUserViewSet(UserViewSet):
 
     ...
 
+
 class SubscriptionListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """Класс представления списка подписок пользователей.
 
