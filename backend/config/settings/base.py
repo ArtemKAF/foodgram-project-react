@@ -10,6 +10,8 @@ env.read_env(str(BASE_DIR / '.env'))
 
 DEBUG = env.bool('DEBUG', False)
 
+E = 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
+
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,16 +73,19 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # noqua: E501
+        'NAME': E,
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # noqua: E501
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # noqua: E501
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqua: E501
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -131,7 +136,8 @@ DJOSER = {
     'SERIALIZERS': {
         'user': 'foodgram.users.api.serializers.CastomUserSerializer',
         'current_user': 'foodgram.users.api.serializers.CastomUserSerializer',
-        'user_create': 'foodgram.users.api.serializers.UserRegistrationSerializer',  # noqua: E501
+        'user_create':
+        'foodgram.users.api.serializers.UserRegistrationSerializer',
     },
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.IsAuthenticated'],
