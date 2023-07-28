@@ -1,4 +1,8 @@
-from django.db import IntegrityError
+"""Модуль представлений приложения рецептов.
+
+Описывает классы представлений для обработки запросов к проекту, связанных с
+приложением рецептов.
+"""
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -17,6 +21,11 @@ from rest_framework.response import Response
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """Класс представления тэгов.
+
+    Отвечает за обработку запросов для работы с тэгами.
+    """
+
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (permissions.AllowAny, )
@@ -24,6 +33,11 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
+    """Класс представления ингредиентов.
+
+    Отвечает за обработку запросов для работы с ингредиентами.
+    """
+
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (permissions.AllowAny, )
@@ -33,6 +47,11 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
+    """Класс представления рецептов.
+
+    Отвечает за обработку запросов для работы с рецептами.
+    """
+
     queryset = Recipe.objects.all().select_related(
         'author'
     ).prefetch_related(

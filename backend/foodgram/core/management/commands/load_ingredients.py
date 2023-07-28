@@ -1,3 +1,8 @@
+"""Модуль команды управления для загрузки данных об ингредиентах.
+
+Описывает классы для команды управления, позволяющей загружать данные об
+ингредиентах из json файла.
+"""
 import json
 
 from django.core.management.base import BaseCommand, CommandParser

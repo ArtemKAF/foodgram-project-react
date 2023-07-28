@@ -1,3 +1,8 @@
+"""Модуль со служебными функциями.
+
+Описывает дополнительную функцию для создания файла со списком покупок в pdf
+формате.
+"""
 from django.utils.translation import gettext as _
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont

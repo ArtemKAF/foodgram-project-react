@@ -1,3 +1,8 @@
+"""Модуль команды управления для загрузки данных о тэгах.
+
+Описывает классы для команды управления, позволяющей загружать данные о тэгах
+из json файла.
+"""
 import json
 
 from django.core.management.base import BaseCommand, CommandParser

@@ -1,3 +1,8 @@
+"""Модуль создания, настройки и управления моделями в приложении рецептов.
+
+Описывает модели и методы для настройки и управления тэгами, ингредиентами и
+количеством ингредиентов, а также избранными рецептами и корзинами покупок.
+"""
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
@@ -7,15 +12,28 @@ User = get_user_model()
 
 
 class Tag(models.Model):
+    """Модель тэга.
+
+    При создании тэга все поля обязательны для заполнения.
+
+    Attributes:
+        name(str):
+            Поле для названия тэга.
+        color(str):
+            Поле для цвета тэга в HEX формате.
+        slug(str):
+            Поле для альтернативного названия тэга.
+    """
+
     name = models.CharField(
-        verbose_name='Название',
+        verbose_name=_('Name'),
         max_length=200,
         unique=True,
         blank=False,
         db_index=True,
     )
     color = models.CharField(
-        verbose_name='Цвет',
+        verbose_name=_('Color'),
         max_length=7,
         unique=True,
         blank=False,
@@ -27,7 +45,7 @@ class Tag(models.Model):
         ],
     )
     slug = models.SlugField(
-        verbose_name='Альтернативное название',
+        verbose_name=_('Slug'),
         max_length=200,
         unique=True,
         blank=False,
@@ -50,14 +68,25 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
+    """Модель ингредиента.
+
+    При создании ингредиента все поля обязательны для заполнения.
+
+    Attributes:
+        name(str):
+            Поле для названия ингредиента.
+        measurement_unit(str):
+            Поле для единицы измерения количества ингредиента.
+    """
+
     name = models.CharField(
-        verbose_name='Название',
+        verbose_name=_('Name'),
         max_length=200,
         blank=False,
         db_index=True,
     )
     measurement_unit = models.CharField(
-        verbose_name='Единица измерения',
+        verbose_name=_('Measurement unit'),
         max_length=200,
         blank=False,
     )
@@ -80,18 +109,40 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
+    """Модель рецепта.
+
+    При создании рецепта все поля обязательны для заполнения. Поле pub_date
+    заполняется автоматически.
+
+    Attributes:
+        name(str):
+            Поле для названия рецепта.
+        description(str):
+            Поле для подробного описания рецепта.
+        cooking_time(int):
+            Поле для времени приготовления блюда по рецепту.
+        image(str):
+            Поле для ссылки на изображение для рецепта.
+        pub_date(DATETIME):
+            Поле для времени создания рецепта.
+        tags(int):
+            Поле ManyToManyField на тэги для рецепта.
+        author(int):
+            Поле ForeignKey на пользователя, который является автором рецепта.
+    """
+
     name = models.CharField(
-        verbose_name='Название',
+        verbose_name=_('Name'),
         max_length=200,
         blank=False,
         db_index=True,
     )
     description = models.TextField(
-        verbose_name='Описание',
+        verbose_name=_('Description'),
         blank=False,
     )
     cooking_time = models.PositiveSmallIntegerField(
-        verbose_name='Время приготовления, мин',
+        verbose_name=_('Cooking time, min'),
         blank=False,
         validators=(
             MinValueValidator(
@@ -103,22 +154,22 @@ class Recipe(models.Model):
         )
     )
     image = models.ImageField(
-        verbose_name='Изображение',
+        verbose_name=_('Image'),
         blank=False,
         upload_to='recipes/',
     )
     pub_date = models.DateTimeField(
-        verbose_name='Дата публикации',
+        verbose_name=_('Date of publishing'),
         auto_now_add=True,
     )
     tags = models.ManyToManyField(
         Tag,
-        verbose_name='Тэги',
+        verbose_name=_('Tags'),
         blank=False,
     )
     author = models.ForeignKey(
         User,
-        verbose_name='Автор',
+        verbose_name=_('Author'),
         blank=False,
         on_delete=models.CASCADE,
     )
@@ -140,12 +191,24 @@ class Recipe(models.Model):
 
 
 class FavoriteRecipe(models.Model):
+    """Модель избранного рецепта.
+
+    При создании избранного рецепта все поля обязательны для заполнения.
+
+    Attributes:
+        user(int):
+            Поле ForeignKey на пользователя, у которого рецепт в избранном.
+        recipe(int):
+            Поле ForeignKey на рецепт, добавленный в избранное.
+    """
     user = models.ForeignKey(
         User,
+        verbose_name=_('User'),
         on_delete=models.CASCADE,
     )
     recipe = models.ForeignKey(
         Recipe,
+        verbose_name=_('Recipe'),
         on_delete=models.CASCADE,
     )
 
@@ -167,20 +230,33 @@ class FavoriteRecipe(models.Model):
 
 
 class IngredientAmount(models.Model):
+    """Модель количества ингредиента.
+
+    При создании количества ингредиента все поля обязательны для заполнения.
+
+    Attributes:
+        ingredient(int):
+            Поле ForeignKey на ингредиент.
+        recipe(int):
+            Поле ForeignKey на рецепт.
+        amount(int):
+            Поле для количества ингредиента.
+    """
+
     ingredient = models.ForeignKey(
         Ingredient,
-        verbose_name='Ингредиент',
+        verbose_name=_('Ingredient'),
         on_delete=models.CASCADE,
         related_name='ingredients_amount',
     )
     recipe = models.ForeignKey(
         Recipe,
-        verbose_name='Рецепт',
+        verbose_name=_('Recipe'),
         on_delete=models.CASCADE,
         related_name='ingredients',
     )
     amount = models.SmallIntegerField(
-        verbose_name='Количество',
+        verbose_name=_('Amount'),
         blank=False,
         validators=(
             MinValueValidator(
@@ -212,17 +288,29 @@ class IngredientAmount(models.Model):
 
 
 class ShoppingCart(models.Model):
+    """Модель рецепта в корзине покупок.
+
+    При создании рецепта в корзине покупок все поля обязательны для заполнения.
+
+    Attributes:
+        buyer(int):
+            Поле ForeignKey на пользователя, добавившего рецепт в корзину
+            покупок.
+        recipe(int):
+            Поле ForeignKey на рецепт, добавленный в корзину покупок.
+    """
+
     buyer = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         blank=False,
-        verbose_name='Покупатель',
+        verbose_name=_('Buyer'),
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         blank=False,
-        verbose_name='Рецепт',
+        verbose_name=_('Recipe'),
     )
 
     class Meta:

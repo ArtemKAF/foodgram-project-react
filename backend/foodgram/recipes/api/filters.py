@@ -1,3 +1,8 @@
+"""Модуль классов, реализующих фильтрацию данных в результатах запросов.
+
+Описывает классы с настройками фильтров для наборов данных в приложении
+рецептов.
+"""
 from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework
 from foodgram.recipes.models import Recipe, Tag
@@ -5,10 +10,16 @@ from rest_framework.filters import SearchFilter
 
 
 class IngredientFilter(SearchFilter):
+    """Класс настройки фильтра для поиска ингредиента по имени.
+    """
+
     search_param = 'name'
 
 
 class RecipeFilter(rest_framework.FilterSet):
+    """Класс настройки фильтра для рецептов.
+    """
+
     author = rest_framework.NumberFilter(
         field_name='author__id',
     )

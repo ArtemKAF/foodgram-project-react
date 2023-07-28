@@ -1,3 +1,8 @@
+"""Модуль с сериализаторами приложения рецептов.
+
+Описывает классы сериализаторов для преобразования данных, поступающих в
+приложение отдаваемых приложением при соответствующих запросах.
+"""
 from django.utils.translation import gettext_lazy as _
 from foodgram.core.utils.fields import Base64ImageField
 from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
@@ -6,6 +11,8 @@ from rest_framework import serializers, validators
 
 
 class TagSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для модели тэгов.
+    """
 
     class Meta:
         model = Tag
@@ -18,6 +25,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class IngredientSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для модели ингредиентов.
+    """
 
     class Meta:
         model = Ingredient
@@ -30,6 +39,9 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class IngredientAmountSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для модели количества ингредиента.
+    """
+
     id = serializers.SlugRelatedField(
         source='ingredient',
         slug_field='id',
@@ -54,6 +66,9 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для модели рецептов.
+    """
+
     author = CastomUserSerializer(read_only=True)
     ingredients = IngredientAmountSerializer(many=True, required=True)
     is_favorited = serializers.SerializerMethodField()
@@ -120,6 +135,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для краткого отображения информации о рецепте.
+    """
 
     class Meta:
         model = Recipe
