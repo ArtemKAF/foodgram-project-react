@@ -1,0 +1,50 @@
+version: '3.3'
+volumes:
+  pg_data:
+  static_data:
+  media_data:
+
+services:
+
+  db:
+    image: ${DB_IMAGE}
+    env_file:
+      - ./.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    image: ${DOCKER_USERNAME}/foodgram_backend
+    env_file:
+      - ./.env
+    volumes:
+      - media_data:/app/foodgram/media/
+      - static_data:/app/staticfiles/
+    restart: always
+    depends_on:
+      gateway:
+        condition: service_started
+
+  frontend:
+    image: ${DOCKER_USERNAME}/foodgram_frontend
+    volumes:
+      - static_data:/static
+    command: cp -r /app/build/. /static/
+    depends_on:
+      db:
+        condition: service_started
+
+  gateway:
+    image: ${DOCKER_USERNAME}/kittygram_gateway
+    volumes:
+      - static_data:/var/html/static/
+      - media_data:/var/html/media/
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      frontend:
+        condition: service_completed_successfully
