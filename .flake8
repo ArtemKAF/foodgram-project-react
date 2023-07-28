@@ -2,4 +2,4 @@
 exclude = __pycache__,migrations
 per-file-ignores =
     # line too long
-    config/settings/base.py: E501,
+    backend/config/settings/base.py: E501,
