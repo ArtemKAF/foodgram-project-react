@@ -44,7 +44,7 @@ services:
       - media_data:/var/html/media/
     restart: always
     ports:
-      - 80:80
+      - 9001:80
     depends_on:
       frontend:
         condition: service_completed_successfully
