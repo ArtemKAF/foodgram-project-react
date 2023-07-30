@@ -5,8 +5,9 @@
 """
 from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework
-from foodgram.recipes.models import Recipe, Tag
 from rest_framework.filters import SearchFilter
+
+from foodgram.recipes.models import Recipe, Tag  # isort: skip
 
 
 class IngredientFilter(SearchFilter):

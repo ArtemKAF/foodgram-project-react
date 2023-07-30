@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.urls import include, path
-from foodgram.recipes.api.views import (IngredientViewSet, RecipeViewSet,
+from rest_framework.routers import DefaultRouter, SimpleRouter
+
+from foodgram.recipes.api.views import (IngredientViewSet,  # isort:skip
+                                        RecipeViewSet,
                                         TagViewSet)
-from foodgram.users.api.views import (CastomUserViewSet,
+from foodgram.users.api.views import (CustomUserViewSet,  # isort: skip
                                       SubscriptionListViewSet,
                                       SubscriptionViewSet)
-from rest_framework.routers import DefaultRouter, SimpleRouter
+
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -22,7 +25,7 @@ router.register(
     SubscriptionViewSet,
     basename='subscribe'
 )
-router.register('users', CastomUserViewSet)
+router.register('users', CustomUserViewSet)
 router.register('tags', TagViewSet)
 router.register('ingredients', IngredientViewSet)
 router.register('recipes', RecipeViewSet)

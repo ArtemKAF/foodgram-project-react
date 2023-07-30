@@ -5,7 +5,8 @@
 """
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from foodgram.recipes.models import (FavoriteRecipe, Ingredient,
+
+from foodgram.recipes.models import (FavoriteRecipe, Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, ShoppingCart,
                                      Tag)
 

@@ -4,10 +4,12 @@
 приложение отдаваемых приложением при соответствующих запросах.
 """
 from django.utils.translation import gettext_lazy as _
-from foodgram.core.utils.fields import Base64ImageField
-from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
-from foodgram.users.api.serializers import CastomUserSerializer
 from rest_framework import serializers
+
+from foodgram.core.utils.fields import Base64ImageField  # isort:skip
+from foodgram.recipes.models import (Ingredient,  # isort:skip
+                                     IngredientAmount, Recipe, Tag)
+from foodgram.users.api.serializers import CustomUserSerializer  # isort:skip
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -69,7 +71,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     """Класс сериализатора для модели рецептов.
     """
 
-    author = CastomUserSerializer(read_only=True)
+    author = CustomUserSerializer(read_only=True)
     ingredients = IngredientAmountSerializer(many=True, required=True)
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()

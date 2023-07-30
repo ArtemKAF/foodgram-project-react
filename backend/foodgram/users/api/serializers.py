@@ -7,9 +7,10 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from foodgram.recipes.models import Recipe
-from foodgram.users.models import Subscription
 from rest_framework import serializers
+
+from foodgram.recipes.models import Recipe  # isort:skip
+from foodgram.users.models import Subscription  # isort:skip
 
 User = get_user_model()
 
@@ -28,7 +29,7 @@ class UserRegistrationSerializer(UserCreateSerializer):
         }
 
 
-class CastomUserSerializer(UserSerializer):
+class CustomUserSerializer(UserSerializer):
     """Класс сериализатора для получения информации о пользователях.
     """
 
@@ -65,14 +66,14 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
 
 
-class SubscriptionSerializer(CastomUserSerializer):
+class SubscriptionSerializer(CustomUserSerializer):
     """Класс сериализатора для сериализации данных о подписках.
     """
 
     recipes = serializers.SerializerMethodField(read_only=True)
     recipes_count = serializers.SerializerMethodField(read_only=True)
 
-    class Meta(CastomUserSerializer.Meta):
+    class Meta(CustomUserSerializer.Meta):
         fields = (
             'email', 'id', 'username', 'first_name', 'last_name',
             'is_subscribed', 'recipes', 'recipes_count',

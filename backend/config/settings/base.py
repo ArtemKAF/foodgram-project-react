@@ -10,6 +10,10 @@ env.read_env(str(BASE_DIR / '.env'))
 
 DEBUG = env.bool('DEBUG', False)
 
+SECRET_KEY = env('SECRET_KEY')
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default='localhost')
+
 E = 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
 
 DJANGO_APPS = [
@@ -127,8 +131,8 @@ REST_FRAMEWORK = {
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'SERIALIZERS': {
-        'user': 'foodgram.users.api.serializers.CastomUserSerializer',
-        'current_user': 'foodgram.users.api.serializers.CastomUserSerializer',
+        'user': 'foodgram.users.api.serializers.CustomUserSerializer',
+        'current_user': 'foodgram.users.api.serializers.CustomUserSerializer',
         'user_create':
         'foodgram.users.api.serializers.UserRegistrationSerializer',
     },

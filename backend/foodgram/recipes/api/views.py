@@ -7,17 +7,23 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
-from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
-from foodgram.recipes.api.permissions import IsAuthorAdminOrReadOnly
-from foodgram.recipes.api.serializers import (IngredientSerializer,
-                                              RecipeSerializer,
-                                              ShortRecipeSerializer,
-                                              TagSerializer)
-from foodgram.recipes.api.utils import generate_shopping_list_in_pdf
-from foodgram.recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from foodgram.recipes.api.filters import (IngredientFilter,  # isort:skip
+                                          RecipeFilter)
+from foodgram.recipes.api.permissions import (  # isort:skip
+                                              IsAuthorAdminOrReadOnly)
+from foodgram.recipes.api.serializers import (  # isort:skip
+                                              IngredientSerializer,
+                                              RecipeSerializer,
+                                              ShortRecipeSerializer,
+                                              TagSerializer)
+from foodgram.recipes.api.utils import (  # isort:skip
+                                        generate_shopping_list_in_pdf)
+from foodgram.recipes.models import (Ingredient,  # isort:skip
+                                     IngredientAmount, Recipe, Tag)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):

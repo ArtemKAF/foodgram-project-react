@@ -5,8 +5,10 @@
 """
 import json
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandParser
-from foodgram.recipes.models import Tag
+
+from foodgram.recipes.models import Tag  # isort: skip
 
 
 class Command(BaseCommand):
@@ -32,7 +34,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '-f',
             '--file',
-            default='data/tags.json',
+            default=settings.BASE_DIR / 'data/tags.json',
             help='Файл, из которого будут загружаться данные.',
         )
         return super().add_arguments(parser)

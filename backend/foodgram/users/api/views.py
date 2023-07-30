@@ -6,15 +6,16 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
-from foodgram.users.api.serializers import SubscriptionSerializer
-from foodgram.users.models import Subscription
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.response import Response
+
+from foodgram.users.api.serializers import SubscriptionSerializer  # isort:skip
+from foodgram.users.models import Subscription  # isort:skip
 
 User = get_user_model()
 
 
-class CastomUserViewSet(UserViewSet):
+class CustomUserViewSet(UserViewSet):
     """Класс представления пользователей.
 
     Отвечает за обработку запросов для работы с пользователями. Унаследован от

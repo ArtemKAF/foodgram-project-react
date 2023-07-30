@@ -14,7 +14,7 @@ User = get_user_model()
 
 
 @admin.register(User)
-class CastomUserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin):
     """Класс для настройки регистрации модели пользователей в админ зоне.
     """
 
