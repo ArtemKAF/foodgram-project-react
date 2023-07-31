@@ -153,7 +153,7 @@ jobs:
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo DEBUG=${{ vars.DEBUG }} >> .env
             echo ALLOWED_HOSTS='*' >> .env
-            echo CSFR_TRUSTED_ORIGINES=${{ vars.CSFR_TRUSTED_ORIGINES}} >> .env
+            echo CSRF_TRUSTED_ORIGINS=${{ vars.CSRF_TRUSTED_ORIGINS}} >> .env
             sudo docker compose -f docker-compose-production.yml pull
             sudo docker compose -f docker-compose-production.yml down
             sudo docker compose -f docker-compose-production.yml up -d
