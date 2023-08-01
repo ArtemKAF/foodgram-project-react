@@ -33,12 +33,8 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ vars.DEBUG }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          DB_HOST: 127.0.0.1
           DB_PORT: ${{ vars.DB_PORT_IN }}
-          ALLOWED_HOSTS: '*'
+          ALLOWED_HOSTS: ${{ vars.CSRF_TRUSTED_ORIGINS }}
         run: |
           python -m flake8 backend/
           cd backend/
@@ -152,7 +148,7 @@ jobs:
             echo DB_HOST=${{ vars.DB_HOST }} >> .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo DEBUG=${{ vars.DEBUG }} >> .env
-            echo ALLOWED_HOSTS='*' >> .env
+            echo ALLOWED_HOSTS=${{ vars.CSRF_TRUSTED_ORIGINS}} >> .env
             echo CSRF_TRUSTED_ORIGINS=${{ vars.CSRF_TRUSTED_ORIGINS}} >> .env
             sudo docker compose -f docker-compose-production.yml pull
             sudo docker compose -f docker-compose-production.yml down
