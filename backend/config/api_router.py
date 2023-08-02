@@ -5,10 +5,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from foodgram.recipes.api.views import (IngredientViewSet,  # isort:skip
                                         RecipeViewSet,
                                         TagViewSet)
-from foodgram.users.api.views import (CustomUserViewSet,  # isort: skip
-#                                      SubscriptionListViewSet,
-#                                      SubscriptionViewSet
-                                      )
+from foodgram.users.api.views import CustomUserViewSet  # isort: skip
 
 
 if settings.DEBUG:
