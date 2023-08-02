@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import mixins, permissions, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from foodgram.users.api.serializers import SubscriptionSerializer  # isort:skip
@@ -21,42 +22,45 @@ class CustomUserViewSet(UserViewSet):
     Отвечает за обработку запросов для работы с пользователями. Унаследован от
     класса представления пользователей Django.
     """
+    @action(
+        methods=('get', ),
+        detail=False,
+        url_path='subscriptions',
+        url_name='subscriptions',
+        serializer_class=SubscriptionSerializer,
+        permission_classes=(permissions.IsAuthenticated, ),
+    )
+    def subscriptions(self, request):
+        queryset = self.filter_queryset(
+            User.objects.filter(subscribers__subscriber=self.request.user)
+        )
 
-    ...
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-
-class SubscriptionListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """Класс представления списка подписок пользователей.
-
-    Отвечает за обработку запросов на получения списка подписок пользователей.
-    """
-
-    serializer_class = SubscriptionSerializer
-    permission_classes = (permissions.IsAuthenticated, )
-
-    def get_queryset(self):
-        return User.objects.filter(subscribers__subscriber=self.request.user)
-
-
-class SubscriptionViewSet(mixins.CreateModelMixin,
-                          mixins.DestroyModelMixin,
-                          viewsets.GenericViewSet):
-    """Класс представления создания и удаления подписок пользователей.
-
-    Отвечает за обработку запросов на создание/удаление подписки на
-    пользователя.
-    """
-
-    queryset = User.objects.all()
-    serializer_class = SubscriptionSerializer
-    permission_classes = (permissions.IsAuthenticated, )
-
-    def delete(self, request, *args, **kwargs):
-        user_id = self.kwargs.get('user_id')
-        author = get_object_or_404(User, pk=user_id)
-
-        instance = Subscription.objects.filter(
-            subscriber=request.user, author=author)
-
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(
+        methods=('post', 'delete', ),
+        detail=True,
+        url_path='subscribe',
+        url_name='subscribe',
+        serializer_class=SubscriptionSerializer,
+        permission_classes=(permissions.IsAuthenticated, ),
+    )
+    def subscribe(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        instance = get_object_or_404(
+            Subscription,
+            author=kwargs.get('id'),
+            subscriber=request.user,
+        )
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)

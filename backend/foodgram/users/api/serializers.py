@@ -101,7 +101,7 @@ class SubscriptionSerializer(CustomUserSerializer):
     def validate(self, data):
         errors = {}
         request = self.context.get('request')
-        author_id = int(request.parser_context.get('kwargs').get('user_id'))
+        author_id = int(request.parser_context.get('kwargs').get('id'))
         subscriber_id = request.user.pk
         if author_id == subscriber_id:
             errors['yourself'] = _('You can not subscribe to yourself!')

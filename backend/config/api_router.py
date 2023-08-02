@@ -6,8 +6,9 @@ from foodgram.recipes.api.views import (IngredientViewSet,  # isort:skip
                                         RecipeViewSet,
                                         TagViewSet)
 from foodgram.users.api.views import (CustomUserViewSet,  # isort: skip
-                                      SubscriptionListViewSet,
-                                      SubscriptionViewSet)
+#                                      SubscriptionListViewSet,
+#                                      SubscriptionViewSet
+                                      )
 
 
 if settings.DEBUG:
@@ -15,16 +16,6 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register(
-    'users/subscriptions',
-    SubscriptionListViewSet,
-    basename='subscribtions'
-)
-router.register(
-    r'users/(?P<user_id>\d+)/subscribe',
-    SubscriptionViewSet,
-    basename='subscribe'
-)
 router.register('users', CustomUserViewSet)
 router.register('tags', TagViewSet)
 router.register('ingredients', IngredientViewSet)
@@ -33,6 +24,5 @@ router.register('recipes', RecipeViewSet)
 app_name = 'api'
 urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
+    path('v1/', include(router.urls)),
 ]
-
-urlpatterns += router.urls
