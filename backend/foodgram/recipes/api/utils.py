@@ -42,3 +42,10 @@ def generate_shopping_list_in_pdf(ingredients, filename):
             page.setFont('DejaVuSans', 12)
             height = 800
     page.save()
+
+
+def is_in_something(serializer, model, obj, *args, **kwargs):
+    request = serializer.context.get('request')
+    if request is None or not request.user.is_authenticated:
+        return False
+    return model.objects.filter(user=request.user, recipe=obj).exists()

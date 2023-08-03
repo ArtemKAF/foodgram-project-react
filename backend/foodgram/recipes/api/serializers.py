@@ -4,12 +4,14 @@
 приложение отдаваемых приложением при соответствующих запросах.
 """
 from django.utils.translation import gettext_lazy as _
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from foodgram.core.utils.fields import Base64ImageField  # isort:skip
 from foodgram.recipes.models import (Ingredient,  # isort:skip
-                                     IngredientAmount, Recipe, Tag)
+                                     IngredientAmount, Recipe, Tag,
+                                     FavoriteRecipe, ShoppingCart)
 from foodgram.users.api.serializers import CustomUserSerializer  # isort:skip
+from foodgram.recipes.api.utils import is_in_something  # isort:skip
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -79,23 +81,16 @@ class RecipeSerializer(serializers.ModelSerializer):
     text = serializers.CharField(source='description', required=True)
 
     def get_is_favorited(self, obj):
-        request = self.context.get('request')
-        if request is None or not request.user.is_authenticated:
-            return False
-        return request.user.favorite_recipes.filter(recipe=obj).exists()
+        return is_in_something(self, FavoriteRecipe, obj=obj)
 
     def get_is_in_shopping_cart(self, obj):
-        request = self.context.get('request')
-        if request is None or not request.user.is_authenticated:
-            return False
-        return request.user.shopping_carts.filter(recipe=obj).exists()
+        return is_in_something(self, ShoppingCart, obj=obj)
 
     def to_representation(self, instance):
         self.fields['tags'] = TagSerializer(many=True)
         return super().to_representation(instance)
 
-    @staticmethod
-    def add_ingredients(instance, ingredients):
+    def add_ingredients(self, instance, ingredients):
         for ingredient in ingredients:
             IngredientAmount.objects.get_or_create(
                 ingredient=ingredient['ingredient'],

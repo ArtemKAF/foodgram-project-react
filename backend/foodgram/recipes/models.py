@@ -293,14 +293,14 @@ class ShoppingCart(models.Model):
     При создании рецепта в корзине покупок все поля обязательны для заполнения.
 
     Attributes:
-        buyer(int):
+        user(int):
             Поле ForeignKey на пользователя, добавившего рецепт в корзину
             покупок.
         recipe(int):
             Поле ForeignKey на рецепт, добавленный в корзину покупок.
     """
 
-    buyer = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         blank=False,
@@ -320,12 +320,12 @@ class ShoppingCart(models.Model):
         default_related_name = 'shopping_carts'
         constraints = (
             models.UniqueConstraint(
-                fields=('buyer', 'recipe', ),
-                name=('%(app_label)s_%(class)s_unique_recipe_from_buyer'),
+                fields=('user', 'recipe', ),
+                name=('%(app_label)s_%(class)s_unique_recipe_from_user'),
             ),
         )
 
     def __str__(self):
         return _(
-            'Recipe %(recipe)s in shopping cart from %(buyer)s'
-        ) % {'recipe': self.recipe.name, 'buyer': self.buyer.username}
+            'Recipe %(recipe)s in shopping cart from %(user)s'
+        ) % {'recipe': self.recipe.name, 'user': self.user.username}

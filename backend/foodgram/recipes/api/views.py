@@ -101,9 +101,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
-        buyer = request.user
+        user = request.user
         if request.method == 'POST':
-            if recipe.shopping_carts.filter(buyer=buyer).exists():
+            if recipe.shopping_carts.filter(user=user).exists():
                 return Response(
                     {
                         'errors':
@@ -114,10 +114,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            recipe.shopping_carts.create(buyer=buyer)
+            recipe.shopping_carts.create(user=user)
             serializer = ShortRecipeSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        recipe.shopping_carts.filter(buyer=buyer).delete()
+        recipe.shopping_carts.filter(user=user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
@@ -127,7 +127,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def download_shopping_cart(self, request, *args, **kwargs):
         shopping_list = IngredientAmount.objects.filter(
-            recipe__shopping_carts__buyer=request.user
+            recipe__shopping_carts__user=request.user
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'

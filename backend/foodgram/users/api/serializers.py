@@ -9,8 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 
-from foodgram.recipes.models import Recipe  # isort:skip
 from foodgram.users.models import Subscription  # isort:skip
+from foodgram.core.utils.embedded import RecipeSerializer  # isort:skip
 
 User = get_user_model()
 
@@ -47,23 +47,6 @@ class CustomUserSerializer(UserSerializer):
         if request is None or not request.user.is_authenticated:
             return False
         return request.user.authors.filter(author=obj).exists()
-
-
-class RecipeSerializer(serializers.ModelSerializer):
-    """Класс сериализатора для получения информации о рецептах.
-
-    Необходим для формирования данных о рецептах авторов, на которых подписан
-    пользователь.
-    """
-
-    class Meta:
-        model = Recipe
-        fields = (
-            'id', 'name', 'image', 'cooking_time',
-        )
-        read_only_fields = (
-            'id', 'name', 'image', 'cooking_time',
-        )
 
 
 class SubscriptionSerializer(CustomUserSerializer):

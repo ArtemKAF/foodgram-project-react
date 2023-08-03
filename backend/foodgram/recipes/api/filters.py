@@ -58,10 +58,10 @@ class RecipeFilter(rest_framework.FilterSet):
         if self.request.user.is_authenticated and value is not None:
             if value:
                 return queryset.filter(
-                    shopping_carts__buyer=self.request.user
+                    shopping_carts__user=self.request.user
                 )
             else:
                 return queryset.exclude(
-                    shopping_carts__buyer=self.request.user
+                    shopping_carts__user=self.request.user
                 )
         return queryset

@@ -130,8 +130,8 @@ msgid "Shopping carts"
 msgstr "Корзины покупок"
 
 #: models.py:329
-msgid "Recipe %(recipe)s in shopping cart from %(buyer)s"
-msgstr "Рецепт %(recipe)s в корзине покупок %(buyer)s"
+msgid "Recipe %(recipe)s in shopping cart from %(user)s"
+msgstr "Рецепт %(recipe)s в корзине покупок %(user)s"
 
 #: admin.py:59
 msgid "Added in favorites"

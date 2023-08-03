@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='shoppingcart',
-            name='buyer',
+            name='user',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Покупатель'),
         ),
         migrations.AddField(
@@ -144,7 +144,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='shoppingcart',
-            constraint=models.UniqueConstraint(fields=('buyer', 'recipe'), name='recipes_shoppingcart_unique_recipe_from_buyer'),
+            constraint=models.UniqueConstraint(fields=('user', 'recipe'), name='recipes_shoppingcart_unique_recipe_from_user'),
         ),
         migrations.AddConstraint(
             model_name='recipe',
