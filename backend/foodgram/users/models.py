@@ -6,7 +6,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from foodgram.users.constants import HELP_TEXT_150_CHARS
+
+from foodgram.users import constants  # isort:skip
+from foodgram.users.utils import get_help_text_required_max_chars  # isort:skip
 
 
 class User(AbstractUser):
@@ -29,27 +31,35 @@ class User(AbstractUser):
     """
     email = models.EmailField(
         _('email'),
-        max_length=254,
+        max_length=constants.MAX_LENGTH_EMAIL,
         unique=True,
         blank=False,
-        help_text=_('Required. 254 characters or fewer.'),
+        help_text=get_help_text_required_max_chars(
+            constants.MAX_LENGTH_EMAIL
+        ),
     )
     first_name = models.CharField(
         verbose_name=_('Name'),
-        max_length=150,
+        max_length=constants.MAX_LENGTH_FIRST_NAME,
         blank=False,
-        help_text=HELP_TEXT_150_CHARS,
+        help_text=get_help_text_required_max_chars(
+            constants.MAX_LENGTH_FIRST_NAME
+        ),
     )
     last_name = models.CharField(
         verbose_name=_('Surname'),
-        max_length=150,
+        max_length=constants.MAX_LENGTH_LAST_NAME,
         blank=False,
-        help_text=HELP_TEXT_150_CHARS,
+        help_text=get_help_text_required_max_chars(
+            constants.MAX_LENGTH_LAST_NAME
+        ),
     )
     password = models.CharField(
         _('Password'),
-        max_length=128,
-        help_text=HELP_TEXT_150_CHARS,
+        max_length=constants.MAX_LENGTH_PASSWORD,
+        help_text=get_help_text_required_max_chars(
+            constants.MAX_LENGTH_PASSWORD
+        ),
     )
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', ]
     USERNAME_FIELD = 'email'

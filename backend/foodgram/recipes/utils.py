@@ -1,8 +1,9 @@
-"""Модуль со служебными функциями.
+"""Модуль вспомогательных функций для приложения рецептов.
 
-Описывает дополнительную функцию для создания файла со списком покупок в pdf
-формате.
+Описывает различные вспомогательные функции для использования в приложении
+рецептов.
 """
+
 from django.utils.translation import gettext as _
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont

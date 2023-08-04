@@ -20,8 +20,8 @@ from foodgram.recipes.api.serializers import (  # isort:skip
                                               RecipeSerializer,
                                               ShortRecipeSerializer,
                                               TagSerializer)
-from foodgram.recipes.api.utils import (  # isort:skip
-                                        generate_shopping_list_in_pdf)
+from foodgram.recipes.utils import (  # isort:skip
+                                    generate_shopping_list_in_pdf)
 from foodgram.recipes.models import (Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag)
 

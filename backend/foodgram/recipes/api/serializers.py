@@ -11,7 +11,7 @@ from foodgram.recipes.models import (Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag,
                                      FavoriteRecipe, ShoppingCart)
 from foodgram.users.api.serializers import CustomUserSerializer  # isort:skip
-from foodgram.recipes.api.utils import is_in_something  # isort:skip
+from foodgram.recipes.utils import is_in_something  # isort:skip
 
 
 class TagSerializer(serializers.ModelSerializer):

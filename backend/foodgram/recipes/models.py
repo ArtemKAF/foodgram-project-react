@@ -3,10 +3,13 @@
 Описывает модели и методы для настройки и управления тэгами, ингредиентами и
 количеством ингредиентов, а также избранными рецептами и корзинами покупок.
 """
+from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from foodgram.recipes import constants  # isort:skip
 
 User = get_user_model()
 
@@ -27,26 +30,19 @@ class Tag(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=200,
+        max_length=constants.MAX_LENGTH_TAG_NAME,
         unique=True,
         blank=False,
         db_index=True,
     )
-    color = models.CharField(
+    color = ColorField(
         verbose_name=_('Color'),
-        max_length=7,
         unique=True,
         blank=False,
-        validators=[
-            RegexValidator(
-                regex=r'^#[0-9a-fA-F]{6}$',
-                message=_('%(value)s is not correct HEX color.'),
-            ),
-        ],
     )
     slug = models.SlugField(
         verbose_name=_('Slug'),
-        max_length=200,
+        max_length=constants.MAX_LENGTH_SLUG,
         unique=True,
         blank=False,
         db_index=True,
@@ -81,13 +77,13 @@ class Ingredient(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=200,
+        max_length=constants.MAX_LENGTH_INGREDIENT_NAME,
         blank=False,
         db_index=True,
     )
     measurement_unit = models.CharField(
         verbose_name=_('Measurement unit'),
-        max_length=200,
+        max_length=constants.MAX_LENGTH_MEASUREMENT_UNIT,
         blank=False,
     )
 
@@ -133,7 +129,7 @@ class Recipe(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=200,
+        max_length=constants.MAX_LENGTH_RECIPE_NAME,
         blank=False,
         db_index=True,
     )

@@ -2,6 +2,8 @@
 
 Описывает различные константы для использования в приложении пользователей.
 """
-from django.utils.translation import gettext_lazy as _
 
-HELP_TEXT_150_CHARS = _('Required. 150 characters or fewer.')
+MAX_LENGTH_EMAIL=254
+MAX_LENGTH_FIRST_NAME=150
+MAX_LENGTH_LAST_NAME=150
+MAX_LENGTH_PASSWORD=128
