@@ -1,5 +1,7 @@
 version: '3.3'
+
 volumes:
+
   pg_data:
   static_data:
   media_data:

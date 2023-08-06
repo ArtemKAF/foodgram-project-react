@@ -1,5 +1,7 @@
 version: '3.3'
+
 volumes:
+
   pg_data:
   static_data:
   media_data:
@@ -15,31 +17,11 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: always
-
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      db:
-        condition: service_started
-
-  gateway:
-    image: ${GATEWAY_VERSION}
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/:/usr/share/nginx/html/api/docs/
-      - media_data:/usr/share/nginx/html/media/
-      - static_data:/usr/share/nginx/html/static/
-    restart: always
-    depends_on:
-      frontend:
-        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -51,8 +33,34 @@ services:
     env_file: ../backend/.env
     volumes:
       - media_data:/app/foodgram/media/
-      - static_data:/app/staticfiles/
-    restart: always
+      - static_data:/app/backend_static/
+    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && gunicorn --bind 0.0.0.0:8000 config.wsgi"
+    restart: unless-stopped
     depends_on:
-      gateway:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      backend:
         condition: service_started
+
+  gateway:
+    image: ${GATEWAY_VERSION}
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/build:/usr/share/nginx/html/
+      - ../docs/:/usr/share/nginx/html/api/docs/
+      - media_data:/usr/share/nginx/html/media/
+      - static_data:/usr/share/nginx/html/static_backend/
+    restart: unless-stopped
+    depends_on:
+      frontend:
+        condition: service_completed_successfully

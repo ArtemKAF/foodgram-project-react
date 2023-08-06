@@ -10,6 +10,15 @@ from rest_framework.filters import SearchFilter
 from foodgram.recipes.models import Recipe, Tag  # isort: skip
 
 
+def filtering_recipes(self, queryset, value, filter_parameters):
+    if self.request.user.is_authenticated and value is not None:
+        if value:
+            return queryset.filter(**filter_parameters)
+        else:
+            return queryset.exclude(**filter_parameters)
+    return queryset
+
+
 class IngredientFilter(SearchFilter):
     """Класс настройки фильтра для поиска ингредиента по имени.
     """
@@ -43,25 +52,17 @@ class RecipeFilter(rest_framework.FilterSet):
         fields = ('author', 'tags', )
 
     def is_favorited_filter(self, queryset, name, value):
-        if self.request.user.is_authenticated and value is not None:
-            if value:
-                return queryset.filter(
-                    favorite_recipes__user=self.request.user
-                )
-            else:
-                return queryset.exclude(
-                    favorite_recipes__user=self.request.user
-                )
-        return queryset
+        return filtering_recipes(
+            self,
+            queryset,
+            value,
+            {'favorite_recipes__user': self.request.user}
+        )
 
     def is_in_shopping_cart_filter(self, queryset, name, value):
-        if self.request.user.is_authenticated and value is not None:
-            if value:
-                return queryset.filter(
-                    shopping_carts__user=self.request.user
-                )
-            else:
-                return queryset.exclude(
-                    shopping_carts__user=self.request.user
-                )
-        return queryset
+        return filtering_recipes(
+            self,
+            queryset,
+            value,
+            {'shopping_carts__user': self.request.user}
+        )
