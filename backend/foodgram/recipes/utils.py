@@ -12,36 +12,66 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
-def generate_shopping_list_in_pdf(ingredients, filename):
+def generate_shopping_list_in_pdf(ingredients, filename, settings):
     try:
         registerFont(
-            TTFont('DejaVuSans', './data/DejaVuSans.ttf', 'utf-8')
+            TTFont(
+                settings.get('FONT_NAME'),
+                settings.get('FONT_FILE'),
+                'utf-8'
+            )
         )
     except Exception as e:
         return Response(
             {'errors': e.args},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    page = Canvas(filename=filename)
-    page.setFont('DejaVuSans', 20)
-    page.drawString(230, 790, _('Shopping list:'))
-    page.setFont('DejaVuSans', 12)
-    height = 760
+    heading_height = (
+        settings.get('HEADER_FONT_SIZE') * settings.get('FONT_SIZE_IN_PT')
+    )
+    text_height = (
+        settings.get('TEXT_FONT_SIZE') * settings.get('FONT_SIZE_IN_PT')
+    )
+    line_spacing = (
+        settings.get('LINE_SPACING') * settings.get('FONT_SIZE_IN_PT')
+    )
+    page = Canvas(filename=filename, pagesize=settings.get('PAGE_SIZE'))
+    page.setFont(settings.get('FONT_NAME'), settings.get('HEADER_FONT_SIZE'))
+    page.drawCentredString(
+        x=settings.get('INDENTATION_HEADER'),
+        y=(settings.get('PAGE_SIZE')[1] - settings.get('TOP_BORDER')
+         - heading_height),
+        text=_('Shopping list:'),
+    )
+    page.setFont(settings.get('FONT_NAME'), settings.get('TEXT_FONT_SIZE'))
+    height = (
+        settings.get('PAGE_SIZE')[1] - settings.get('TOP_BORDER')
+        - heading_height - settings.get('HEADER_SPACING') - text_height
+    )
     for ingredient in ingredients:
-        page.drawString(60, height, text=(
-            '- {ingredient} ({measurement_unit}) -- {amount}'.format(
-                ingredient=ingredient.get('ingredient__name').capitalize(),
-                measurement_unit=ingredient.get(
-                    'ingredient__measurement_unit'
-                ),
-                amount=ingredient.get('amount__sum'),
-            )
+        page.drawString(
+            settings.get('INDENTATION_LIST'),
+            height,
+            text=(
+                '- {ingredient} ({measurement_unit}) -- {amount}'.format(
+                    ingredient=ingredient.get('ingredient__name').capitalize(),
+                    measurement_unit=ingredient.get(
+                        'ingredient__measurement_unit'
+                    ),
+                    amount=ingredient.get('amount__sum'),
+                )
         ))
-        height -= 20
-        if height <= 30:
+        height -= (text_height + line_spacing)
+        if height <= settings.get('BOTTOM_BORDER'):
             page.showPage()
-            page.setFont('DejaVuSans', 12)
-            height = 800
+            page.setFont(
+                settings.get('FONT_NAME'),
+                settings.get('TEXT_FONT_SIZE')
+            )
+            height = (
+                settings.get('PAGE_SIZE')[1] - text_height
+                - settings.get('TOP_BORDER')
+            )
     page.save()
 
 

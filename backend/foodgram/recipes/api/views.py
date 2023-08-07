@@ -20,10 +20,11 @@ from foodgram.recipes.api.serializers import (  # isort:skip
                                               RecipeSerializer,
                                               ShortRecipeSerializer,
                                               TagSerializer)
-from foodgram.recipes.utils import (  # isort:skip
-                                    generate_shopping_list_in_pdf)
+from foodgram.recipes.constants import SHOPPING_LIST_PGF_SETTINGS  # isort:skip
 from foodgram.recipes.models import (Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag)
+from foodgram.recipes.utils import (  # isort:skip
+                                    generate_shopping_list_in_pdf)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -134,5 +135,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).annotate(Sum('amount'))
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = ('attachment; filename=filename')
-        generate_shopping_list_in_pdf(shopping_list, response)
+        generate_shopping_list_in_pdf(
+            shopping_list,
+            response,
+            SHOPPING_LIST_PGF_SETTINGS
+        )
         return response
