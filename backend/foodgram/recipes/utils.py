@@ -37,10 +37,10 @@ def generate_shopping_list_in_pdf(ingredients, filename, settings):
     )
     page = Canvas(filename=filename, pagesize=settings.get('PAGE_SIZE'))
     page.setFont(settings.get('FONT_NAME'), settings.get('HEADER_FONT_SIZE'))
-    page.drawCentredString(
+    page.drawString(
         x=settings.get('INDENTATION_HEADER'),
         y=(settings.get('PAGE_SIZE')[1] - settings.get('TOP_BORDER')
-         - heading_height),
+            - heading_height),
         text=_('Shopping list:'),
     )
     page.setFont(settings.get('FONT_NAME'), settings.get('TEXT_FONT_SIZE'))
@@ -60,7 +60,7 @@ def generate_shopping_list_in_pdf(ingredients, filename, settings):
                     ),
                     amount=ingredient.get('amount__sum'),
                 )
-        ))
+            ))
         height -= (text_height + line_spacing)
         if height <= settings.get('BOTTOM_BORDER'):
             page.showPage()
