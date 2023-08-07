@@ -3,8 +3,6 @@
 Описывает различные вспомогательные функции для использования в приложении
 рецептов.
 """
-
-from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont
