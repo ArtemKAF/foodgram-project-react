@@ -21,10 +21,12 @@ from foodgram.recipes.api.serializers import (  # isort:skip
                                               ShortRecipeSerializer,
                                               TagSerializer)
 from foodgram.recipes.constants import SHOPPING_LIST_PGF_SETTINGS  # isort:skip
-from foodgram.recipes.models import (Ingredient,  # isort:skip
-                                     IngredientAmount, Recipe, Tag)
+from foodgram.recipes.models import (FavoriteRecipe, Ingredient,  # isort:skip
+                                     IngredientAmount, Recipe, Tag,
+                                     ShoppingCart)
 from foodgram.recipes.utils import (  # isort:skip
-                                    generate_shopping_list_in_pdf)
+                                    generate_shopping_list_in_pdf,
+                                    create_delete_object)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -78,22 +80,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(permissions.IsAuthenticated, ),
     )
     def favorite(self, request, *args, **kwargs):
-        recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
-        favorited = request.user
-        if request.method == 'POST':
-            if recipe.favorite_recipes.filter(user=favorited).exists():
-                return Response(
-                    {
-                        'errors':
-                        _('The recipe has already been added to favorite!')
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-            recipe.favorite_recipes.create(user=favorited)
-            serializer = ShortRecipeSerializer(recipe)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        recipe.favorite_recipes.filter(user=favorited).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return create_delete_object(
+            request,
+            FavoriteRecipe,
+            get_object_or_404(Recipe, pk=kwargs.get('pk')),
+            ShortRecipeSerializer,
+            _('The recipe has already been added to favorite!'),
+            args,
+            kwargs
+        )
 
     @action(
         methods=('post', 'delete', ),
@@ -101,25 +96,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(permissions.IsAuthenticated, ),
     )
     def shopping_cart(self, request, *args, **kwargs):
-        recipe = get_object_or_404(Recipe, pk=kwargs.get('pk'))
-        user = request.user
-        if request.method == 'POST':
-            if recipe.shopping_carts.filter(user=user).exists():
-                return Response(
-                    {
-                        'errors':
-                        _(
-                            'The recipe has already been added to shopping '
-                            'cart!'
-                        )
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-            recipe.shopping_carts.create(user=user)
-            serializer = ShortRecipeSerializer(recipe)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        recipe.shopping_carts.filter(user=user).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return create_delete_object(
+            request,
+            ShoppingCart,
+            get_object_or_404(Recipe, pk=kwargs.get('pk')),
+            ShortRecipeSerializer,
+            _('The recipe has already been added to shopping cart!'),
+            args,
+            kwargs
+        )
 
     @action(
         methods=('get', ),

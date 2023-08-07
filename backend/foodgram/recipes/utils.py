@@ -4,6 +4,7 @@
 рецептов.
 """
 
+from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont
@@ -80,3 +81,18 @@ def is_in_something(serializer, model, obj, *args, **kwargs):
     if request is None or not request.user.is_authenticated:
         return False
     return model.objects.filter(user=request.user, recipe=obj).exists()
+
+
+def create_delete_object(request, model, object, ser, err, *args, **kwargs):
+    user = request.user
+    if request.method == 'POST':
+        if model.objects.filter(recipe=object, user=user).exists():
+            return Response(
+                {'errors': err},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        model.objects.create(recipe=object, user=user)
+        serializer = ser(object)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    model.filter(recipe=object, user=user).delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
