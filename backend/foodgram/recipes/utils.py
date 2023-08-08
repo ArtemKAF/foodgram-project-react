@@ -92,5 +92,5 @@ def create_delete_object(request, model, object, ser, err, *args, **kwargs):
         model.objects.create(recipe=object, user=user)
         serializer = ser(object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    model.filter(recipe=object, user=user).delete()
+    model.objects.filter(recipe=object, user=user).delete()
     return Response(status=status.HTTP_204_NO_CONTENT)

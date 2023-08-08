@@ -34,7 +34,7 @@ services:
     volumes:
       - media_data:/app/foodgram/media/
       - static_data:/app/backend_static/
-    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && gunicorn --bind 0.0.0.0:8000 config.wsgi"
+    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && django-admin compilemessages && gunicorn --bind 0.0.0.0:8000 config.wsgi"
     restart: unless-stopped
     depends_on:
       db:
