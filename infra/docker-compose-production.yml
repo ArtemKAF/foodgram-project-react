@@ -5,6 +5,7 @@ volumes:
   pg_data:
   static_data:
   media_data:
+  frontend_data:
 
 services:
 
@@ -30,7 +31,6 @@ services:
     volumes:
       - media_data:/app/foodgram/media/
       - static_data:/app/backend_static/
-    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && gunicorn --bind 0.0.0.0:8000 config.wsgi"
     restart: always
     depends_on:
       db:
@@ -39,7 +39,7 @@ services:
   frontend:
     image: ${DOCKER_USERNAME}/foodgram_frontend
     volumes:
-      - static_data:/static
+      - frontend_data:/static/
     command: cp -r /app/build/. /static/
     depends_on:
       backend:
@@ -49,6 +49,7 @@ services:
     image: ${DOCKER_USERNAME}/foodgram_gateway
     volumes:
       - static_data:/usr/share/nginx/html/static_backend/
+      - frontend_data:/usr/share/nginx/html/
       - media_data:/usr/share/nginx/html/media/
     restart: unless-stopped
     ports:
