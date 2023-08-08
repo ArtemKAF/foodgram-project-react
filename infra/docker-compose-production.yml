@@ -16,9 +16,9 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-    restart: always
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,11 +29,12 @@ services:
       - ./.env
     volumes:
       - media_data:/app/foodgram/media/
-      - static_data:/app/static/
+      - static_data:/app/backend_static/
+    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && gunicorn --bind 0.0.0.0:8000 config.wsgi"
     restart: always
     depends_on:
-      gateway:
-        condition: service_started
+      db:
+        condition: service_healthy
 
   frontend:
     image: ${DOCKER_USERNAME}/foodgram_frontend
@@ -41,15 +42,15 @@ services:
       - static_data:/static
     command: cp -r /app/build/. /static/
     depends_on:
-      db:
-        condition: service_healthy
+      backend:
+        condition: service_started
 
   gateway:
     image: ${DOCKER_USERNAME}/foodgram_gateway
     volumes:
-      - static_data:/usr/share/nginx/html/
+      - static_data:/usr/share/nginx/html/static_backend/
       - media_data:/usr/share/nginx/html/media/
-    restart: always
+    restart: unless-stopped
     ports:
       - 9001:80
     depends_on:
