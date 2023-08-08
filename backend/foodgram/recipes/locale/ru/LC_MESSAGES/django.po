@@ -17,146 +17,146 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: models.py:29 models.py:83 models.py:135
+#: models.py:32 models.py:79 models.py:131
 msgid "Name"
 msgstr "Название"
 
-#: models.py:36
+#: models.py:39
 msgid "Color"
 msgstr "Цвет"
 
-#: models.py:43
-msgid "%(value)s is not correct HEX color."
-msgstr "%(value)s не корректный шестнадцетиричный код цвета."
-
-#: models.py:48
+#: models.py:44
 msgid "Slug"
 msgstr "Альтерантивное название"
 
-#: models.py:57
+#: models.py:53
 msgid "Tag"
 msgstr "Тэг"
 
-#: models.py:58 models.py:167
+#: models.py:54 models.py:163
 msgid "Tags"
 msgstr "Тэги"
 
-#: models.py:89
+#: models.py:85
 msgid "Measurement unit"
 msgstr "Единица измерения"
 
-#: models.py:96 models.py:248
+#: models.py:92 models.py:244
 msgid "Ingredient"
 msgstr "Ингредиент"
 
-#: models.py:97
+#: models.py:93
 msgid "Ingredients"
 msgstr "Ингредиенты"
 
-#: models.py:141
+#: models.py:137
 msgid "Description"
 msgstr "Описание"
 
-#: models.py:145
+#: models.py:141
 msgid "Cooking time, min"
 msgstr "Время приготовления, мин"
 
-#: models.py:150
+#: models.py:146
 msgid "The cooking time can not be less than one minute."
 msgstr "Время приготовления не может быть меньше одной минуты."
 
-#: models.py:157
+#: models.py:153
 msgid "Image"
 msgstr "Изображение"
 
-#: models.py:162
+#: models.py:158
 msgid "Date of publishing"
 msgstr "Дата публикации"
 
-#: models.py:172
+#: models.py:168
 msgid "Author"
 msgstr "Автор"
 
-#: models.py:179 models.py:211 models.py:254 models.py:313
+#: models.py:175 models.py:207 models.py:250 models.py:309
 msgid "Recipe"
 msgstr "Рецепт"
 
-#: models.py:180
+#: models.py:176
 msgid "Recipes"
 msgstr "Рецепты"
 
-#: models.py:206
+#: models.py:202
 msgid "User"
 msgstr "Пользователь"
 
-#: models.py:216
+#: models.py:212
 msgid "Favorite recipe"
 msgstr "Избранный рецепт"
 
-#: models.py:217
+#: models.py:213
 msgid "Favorite recipes"
 msgstr "Избранные рецепты"
 
-#: models.py:227
+#: models.py:223
 msgid "Recipe %(recipe)s in the %(favorited)s favorites"
 msgstr "Рецепт %(recipe)s в избранном у %(favorited)s"
 
-#: models.py:264
+#: models.py:255
+msgid "Amount"
+msgstr "Количество"
+
+#: models.py:260
 msgid "The amount of the ingredient can not be less than one."
 msgstr "Количество игредиента не может быть меньше одного."
 
-#: models.py:273
+#: models.py:269
 msgid "Ingredient amount"
 msgstr "Количество ингредиента"
 
-#: models.py:274
+#: models.py:270
 msgid "Amounts of ingredients"
 msgstr "Количества ингредиентов"
 
-#: models.py:285
+#: models.py:281
 msgid "in"
 msgstr "в"
 
-#: models.py:307
+#: models.py:303
 msgid "Buyer"
 msgstr "Покупатель"
 
-#: models.py:318
+#: models.py:314
 msgid "Shopping cart"
 msgstr "Корзина покупок"
 
-#: models.py:319
+#: models.py:315
 msgid "Shopping carts"
 msgstr "Корзины покупок"
 
-#: models.py:329
+#: models.py:325
 msgid "Recipe %(recipe)s in shopping cart from %(user)s"
 msgstr "Рецепт %(recipe)s в корзине покупок %(user)s"
 
-#: admin.py:59
+#: admin.py:60
 msgid "Added in favorites"
 msgstr "Добавлено в избранное"
 
-#: ./api/filters.py:33
+#: ./api/filters.py:43
 msgid "Is favorited"
 msgstr "Находится в избранном"
 
-#: ./api/filters.py:37
+#: ./api/filters.py:47
 msgid "Is in shopping cart"
 msgstr "Находится в корзине покупок"
 
-#: ./api/utils.py:26
+#: utils.py:43
 msgid "Shopping list:"
 msgstr "Список покупок:"
 
-#: ./api/serializers.py:124
+#: ./api/serializers.py:121
 msgid "Do you already have a recipe with this name!"
 msgstr "У Вас уже есть рецепт с таким названием!"
 
-#: ./api/views.py:81
+#: ./api/views.py:87
 msgid "The recipe has already been added to favorite!"
 msgstr "Рецепт уже добавлен в избранное!"
 
-#: ./api/views.py:104
+#: ./api/views.py:103
 msgid "The recipe has already been added to shopping cart!"
 msgstr "Рецепт уже добавлен в корзину покупок!"

@@ -4,15 +4,25 @@
 приложение отдаваемых приложением при соответствующих запросах.
 """
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 
 from foodgram.users.models import Subscription  # isort:skip
-from foodgram.core.utils.embedded import RecipeSerializer  # isort:skip
+from foodgram.core.utils.embedded import ShortRecipeSerializer  # isort:skip
 
 User = get_user_model()
+
+
+class GetIsSubscribedMixin:
+
+    def get_is_subscribed(self, obj):
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return False
+        if isinstance(obj, User):
+            return request.user.authors.filter(author=obj).exists()
+        return request.user.authors.filter(author=obj.author).exists()
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
@@ -29,7 +39,7 @@ class UserRegistrationSerializer(UserCreateSerializer):
         }
 
 
-class CustomUserSerializer(UserSerializer):
+class CustomUserSerializer(GetIsSubscribedMixin, UserSerializer):
     """Класс сериализатора для получения информации о пользователях.
     """
 
@@ -42,44 +52,38 @@ class CustomUserSerializer(UserSerializer):
         )
         read_only_fields = ('id', )
 
-    def get_is_subscribed(self, obj):
-        request = self.context.get('request')
-        if request is None or not request.user.is_authenticated:
-            return False
-        return request.user.authors.filter(author=obj).exists()
 
-
-class SubscriptionSerializer(CustomUserSerializer):
+class SubscriptionSerializer(GetIsSubscribedMixin,
+                             serializers.ModelSerializer):
     """Класс сериализатора для сериализации данных о подписках.
     """
 
+    email = serializers.ReadOnlyField(source='author.email')
+    id = serializers.ReadOnlyField(source='author.id')
+    username = serializers.ReadOnlyField(source='author.username')
+    first_name = serializers.ReadOnlyField(source='author.first_name')
+    last_name = serializers.ReadOnlyField(source='author.last_name')
+    is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField(read_only=True)
     recipes_count = serializers.SerializerMethodField(read_only=True)
 
-    class Meta(CustomUserSerializer.Meta):
+    class Meta:
+        model = Subscription
         fields = (
             'email', 'id', 'username', 'first_name', 'last_name',
             'is_subscribed', 'recipes', 'recipes_count',
-        )
-        read_only_fields = (
-            'email', 'username', 'first_name', 'last_name',
         )
 
     def get_recipes(self, obj):
         request = self.context.get('request')
         limit = request.GET.get('recipes_limit')
-        queryset = obj.recipes.all()
+        queryset = obj.author.recipes.all()
         if limit is not None:
             queryset = queryset[:int(limit)]
-        return RecipeSerializer(queryset, many=True).data
+        return ShortRecipeSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
-        return obj.recipes.all().count()
-
-    def create(self, validated_data):
-        Subscription.objects.create(**validated_data)
-        author = get_object_or_404(User, pk=validated_data.get('author_id'))
-        return author
+        return obj.author.recipes.all().count()
 
     def validate(self, data):
         errors = {}

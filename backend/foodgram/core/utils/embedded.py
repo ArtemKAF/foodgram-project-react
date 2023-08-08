@@ -2,7 +2,7 @@ from foodgram.recipes.models import Recipe
 from rest_framework import serializers
 
 
-class RecipeSerializer(serializers.ModelSerializer):
+class ShortRecipeSerializer(serializers.ModelSerializer):
     """Класс сериализатора для получения информации о рецептах.
 
     Необходим для формирования данных о рецептах авторов, на которых подписан

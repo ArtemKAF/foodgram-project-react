@@ -31,9 +31,7 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=(permissions.IsAuthenticated, ),
     )
     def subscriptions(self, request):
-        queryset = self.filter_queryset(
-            User.objects.filter(subscribers__subscriber=self.request.user)
-        )
+        queryset = Subscription.objects.filter(subscriber=request.user)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -55,7 +53,7 @@ class CustomUserViewSet(UserViewSet):
         if request.method == 'POST':
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         instance = get_object_or_404(
             Subscription,

@@ -17,51 +17,47 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: models.py:31
+#: models.py:33
 msgid "email"
 msgstr "Электронная почта"
 
-#: models.py:35
-msgid "Required. 254 characters or fewer."
-msgstr "Обязательное поле. Не более 254 символов."
-
-#: models.py:38
+#: models.py:42
 msgid "Name"
 msgstr "Имя"
 
-#: models.py:44
+#: models.py:50
 msgid "Surname"
 msgstr "Фамилия"
 
-#: models.py:50
+#: models.py:58
 msgid "Password"
 msgstr "Пароль"
 
-#: models.py:59
+#: models.py:69
 msgid "User"
 msgstr "Пользователь"
 
-#: models.py:60
+#: models.py:70
 msgid "Users"
 msgstr "Пользователи"
 
-#: models.py:81
+#: models.py:91
 msgid "Author"
 msgstr "Автор"
 
-#: models.py:87
+#: models.py:97
 msgid "Subscriber"
 msgstr "Подписчик"
 
-#: models.py:92
+#: models.py:102
 msgid "Subscription"
 msgstr "Подписка"
 
-#: models.py:93
+#: models.py:103
 msgid "Subscriptions"
 msgstr "Подписки"
 
-#: models.py:107
+#: models.py:117
 msgid "subscribed to"
 msgstr "подписан на"
 
@@ -69,14 +65,14 @@ msgstr "подписан на"
 msgid "This email alredy been taken."
 msgstr "Эта электронная почта уже существует."
 
-#: constants.py:7
-msgid "Required. 150 characters or fewer."
-msgstr "Обязательное поле. Не более 150 символов."
-
-#: ./api/serializers.py.py:106
+#: ./api/serializers.py.py:94
 msgid "You can not subscribe to yourself!"
 msgstr "Нельзя подписаться на самого себя!"
 
-#: ./api/serializers.py.py:111
+#: ./api/serializers.py.py:99
 msgid "You are already subscribed to this user!"
 msgstr "Вы уже подписаны на этого пользователя!'"
+
+#: utils.py:11
+msgid "'Required. %(value)s characters or fewer."
+msgstr "Обязательное поле. Не более %(value)s символов."

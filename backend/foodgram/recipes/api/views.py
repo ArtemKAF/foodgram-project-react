@@ -17,8 +17,8 @@ from foodgram.recipes.api.permissions import (  # isort:skip
 from foodgram.recipes.api.serializers import (  # isort:skip
                                               IngredientSerializer,
                                               RecipeSerializer,
-                                              ShortRecipeSerializer,
                                               TagSerializer)
+from foodgram.core.utils.embedded import ShortRecipeSerializer  # isort:skip
 from foodgram.recipes.constants import SHOPPING_LIST_PGF_SETTINGS  # isort:skip
 from foodgram.recipes.models import (FavoriteRecipe, Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag,
