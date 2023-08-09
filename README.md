@@ -13,3 +13,17 @@
 - Docker
 - Postgres
 
+## Для локального запуска в Docker контейнерах:
+
+Необходимо предварительно установить:  
+    - [Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/)  
+    или  
+    - [Docker Desktop ](https://docs.docker.com/desktop/install/windows-install/)  
+- В папке backend подготовить файл .env и наполнить по шаблону .env.example
+- Запустить сборку и запуск контейнером командой
+```
+sudo docker compose up -d
+```
+По завершении работы команды проект станет доступен по адресу [http://localhost/](http://localhost/) или [http://127.0.0.1/](http://127.0.0.1/)  
+
+По адресу [http://localhost/api/docs/](http://localhost/api/docs/) будет доступна спецификация к API проекта.
