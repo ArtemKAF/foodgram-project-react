@@ -8,9 +8,9 @@ import json
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandParser
 
-from foodgram.core.management.commands.constants import (  # isort: skip
-                                                         TYPES,
-                                                         FILE_CHOICES)
+from foodgram.core.management.commands.constants import (  # isort:skip
+    TYPES, FILE_CHOICES
+)
 
 
 def load_data(model, file):
