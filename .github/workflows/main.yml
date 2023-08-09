@@ -155,8 +155,8 @@ jobs:
             sudo docker compose -f docker-compose-production.yml exec backend python manage.py collectstatic
             sudo docker compose -f docker-compose-production.yml exec backend cp -r /app/staticfiles/. /app/backend_static/
             sudo docker compose -f docker-compose-production.yml exec backend django-admin compilemessages
-            sudo docker compose -f docker-compose-production.yml exec backend python manage.py load_ingredients
-            sudo docker compose -f docker-compose-production.yml exec backend python manage.py load_tags
+            sudo docker compose -f docker-compose-production.yml exec backend python manage.py loaddata tag -f data/tags.json
+            sudo docker compose -f docker-compose-production.yml exec backend python manage.py loaddata ingredient -f data/ingredients.json
 
   send_message:
     runs-on: ubuntu-latest
