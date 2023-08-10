@@ -19,7 +19,7 @@ from foodgram.recipes.api.serializers import (  # isort:skip
     IngredientSerializer, RecipeSerializer, TagSerializer
 )
 from foodgram.core.utils.embedded import ShortRecipeSerializer  # isort:skip
-from foodgram.recipes.constants import SHOPPING_LIST_PGF_SETTINGS  # isort:skip
+from foodgram.recipes.constants import SHOPPING_LIST_PDF_SETTINGS  # isort:skip
 from foodgram.recipes.models import (FavoriteRecipe, Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag,
                                      ShoppingCart)
@@ -122,6 +122,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         generate_shopping_list_in_pdf(
             shopping_list,
             response,
-            SHOPPING_LIST_PGF_SETTINGS
+            **SHOPPING_LIST_PDF_SETTINGS
         )
         return response

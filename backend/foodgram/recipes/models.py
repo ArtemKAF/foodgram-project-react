@@ -30,7 +30,7 @@ class Tag(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=constants.MAX_LENGTH_TAG_NAME,
+        max_length=constants.MAX_LENGTH_CHARFIELD,
         unique=True,
         blank=False,
         db_index=True,
@@ -42,7 +42,7 @@ class Tag(models.Model):
     )
     slug = models.SlugField(
         verbose_name=_('Slug'),
-        max_length=constants.MAX_LENGTH_SLUG,
+        max_length=constants.MAX_LENGTH_CHARFIELD,
         unique=True,
         blank=False,
         db_index=True,
@@ -77,13 +77,13 @@ class Ingredient(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=constants.MAX_LENGTH_INGREDIENT_NAME,
+        max_length=constants.MAX_LENGTH_CHARFIELD,
         blank=False,
         db_index=True,
     )
     measurement_unit = models.CharField(
         verbose_name=_('Measurement unit'),
-        max_length=constants.MAX_LENGTH_MEASUREMENT_UNIT,
+        max_length=constants.MAX_LENGTH_CHARFIELD,
         blank=False,
     )
 
@@ -129,7 +129,7 @@ class Recipe(models.Model):
 
     name = models.CharField(
         verbose_name=_('Name'),
-        max_length=constants.MAX_LENGTH_RECIPE_NAME,
+        max_length=constants.MAX_LENGTH_CHARFIELD,
         blank=False,
         db_index=True,
     )

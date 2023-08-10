@@ -5,13 +5,9 @@
 from django.conf import settings
 from reportlab.lib.pagesizes import A4
 
-MAX_LENGTH_TAG_NAME = 200
-MAX_LENGTH_SLUG = 200
-MAX_LENGTH_INGREDIENT_NAME = 200
-MAX_LENGTH_MEASUREMENT_UNIT = 200
-MAX_LENGTH_RECIPE_NAME = 200
+MAX_LENGTH_CHARFIELD = 200
 
-SHOPPING_LIST_PGF_SETTINGS = {
+SHOPPING_LIST_PDF_SETTINGS = {
     'PAGE_SIZE': A4,
     'FONT_NAME': 'DejaVuSans',
     'FONT_FILE': settings.BASE_DIR / 'data/DejaVuSans.ttf',

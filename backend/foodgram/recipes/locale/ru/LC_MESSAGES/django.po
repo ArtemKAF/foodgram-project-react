@@ -145,7 +145,7 @@ msgstr "Находится в избранном"
 msgid "Is in shopping cart"
 msgstr "Находится в корзине покупок"
 
-#: utils.py:43
+#: utils.py:34
 msgid "Shopping list:"
 msgstr "Список покупок:"
 
