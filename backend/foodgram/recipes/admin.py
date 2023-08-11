@@ -49,7 +49,7 @@ class IngredientAmountInline(admin.TabularInline):
     extra = 0
     min_num = 1
     validate_min = True
-    
+
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj=None, **kwargs)
         formset.validate_min = True
@@ -63,11 +63,6 @@ class IngredientAmountInline(admin.TabularInline):
 class RecipeAdmin(admin.ModelAdmin):
     """Класс для настройки регистрации модели рецепта в админ зоне.
     """
-
-    def get_favorite_count(self, obj):
-        return obj.favorite_recipes.all().count()
-
-    get_favorite_count.short_description = _('Added in favorites')
 
     list_display = (
         'name', 'author', 'description', 'cooking_time', 'pub_date',
@@ -85,6 +80,11 @@ class RecipeAdmin(admin.ModelAdmin):
         'name', 'author__username',
     )
     inlines = (IngredientAmountInline, )
+
+    def get_favorite_count(self, obj):
+        return obj.favorite_recipes.all().count()
+
+    get_favorite_count.short_description = _('Added in favorites')
 
 
 @admin.register(FavoriteRecipe)

@@ -137,7 +137,7 @@ msgstr "Рецепт %(recipe)s в корзине покупок %(user)s"
 msgid "The number of ingredients in the recipe cannot be less than one!"
 msgstr "Количество ингредиентов в рецепте не может быть меньше одного!"
 
-#: admin.py:70
+#: admin.py:87
 msgid "Added in favorites"
 msgstr "Добавлено в избранное"
 
