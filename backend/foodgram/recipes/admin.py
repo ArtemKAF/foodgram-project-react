@@ -47,6 +47,16 @@ class IngredientAmountInline(admin.TabularInline):
 
     model = IngredientAmount
     extra = 0
+    min_num = 1
+    validate_min = True
+    
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj=None, **kwargs)
+        formset.validate_min = True
+        formset.default_error_messages['too_few_forms'] = _(
+            'The number of ingredients in the recipe cannot be less than one!'
+        )
+        return formset
 
 
 @admin.register(Recipe)
