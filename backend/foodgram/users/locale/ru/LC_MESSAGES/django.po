@@ -65,14 +65,22 @@ msgstr "подписан на"
 msgid "This email alredy been taken."
 msgstr "Эта электронная почта уже существует."
 
-#: ./api/serializers.py.py:94
+#: utils.py:11
+msgid "Required. %(value)s characters or fewer."
+msgstr "Обязательное поле. Не более %(value)s символов."
+
+#: ./api/serializers.py.py:96
 msgid "You can not subscribe to yourself!"
 msgstr "Нельзя подписаться на самого себя!"
 
-#: ./api/serializers.py.py:99
+#: ./api/serializers.py.py:101
 msgid "You are already subscribed to this user!"
 msgstr "Вы уже подписаны на этого пользователя!'"
 
-#: utils.py:11
-msgid "'Required. %(value)s characters or fewer."
-msgstr "Обязательное поле. Не более %(value)s символов."
+#: ./api/utils.py:17
+msgid "The recipes_limit parameter cannot be less than zero!"
+msgstr "Параметр recipes_limit не может быть меньше нуля!"
+
+#: ./api/utils.py:21
+msgid "Invalid value of the recipes_limit parameter!"
+msgstr "Некорректное значение параметра recipes_limit!"

@@ -10,6 +10,7 @@ from rest_framework import serializers
 
 from foodgram.users.models import Subscription  # isort:skip
 from foodgram.core.utils.embedded import ShortRecipeSerializer  # isort:skip
+from foodgram.users.api.utils import validate_recipes_limit  # isort:skip
 
 User = get_user_model()
 
@@ -75,11 +76,12 @@ class SubscriptionSerializer(GetIsSubscribedMixin,
         )
 
     def get_recipes(self, obj):
-        request = self.context.get('request')
-        limit = request.GET.get('recipes_limit')
-        queryset = obj.author.recipes.all()
-        if limit is not None:
-            queryset = queryset[:int(limit)]
+        limit = self.context.get('request').query_params.get('recipes_limit')
+        queryset = (
+            obj.author.recipes.all()[:int(limit)]
+            if validate_recipes_limit(limit)
+            else obj.author.recipes.all()
+        )
         return ShortRecipeSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
