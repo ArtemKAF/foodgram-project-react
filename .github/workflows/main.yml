@@ -83,6 +83,7 @@ jobs:
           build-args:
             NODE_VERSION=${{ vars.NODE_VERSION_BUILD }}
           context: ./frontend/
+          build-contexts: docs=./docs/
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
 
@@ -105,7 +106,6 @@ jobs:
           build-args:
             NGINX_VERSION=${{ vars.NGINX_VERSION_BUILD }}
           context: ./infra/
-          build-contexts: docs=./docs/
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_gateway:latest
 
