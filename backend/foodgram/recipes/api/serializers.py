@@ -6,6 +6,7 @@
 from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from foodgram.recipes.models import (Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag,
@@ -114,13 +115,14 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         errors = {}
-        if Recipe.objects.filter(
-            name=data.get('name'),
-            author=self.context.get('request').user.pk
-        ).exists():
-            errors['exists'] = _(
-                'Do you already have a recipe with this name!'
-            )
+        if self.context.get('request').method == 'POST':
+            if Recipe.objects.filter(
+                name=data.get('name'),
+                author=self.context.get('request').user.pk
+            ).exists():
+                errors['exists'] = _(
+                    'Do you already have a recipe with this name!'
+                )
         if errors:
             raise serializers.ValidationError(errors)
         return super(RecipeSerializer, self).validate(data)
