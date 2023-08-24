@@ -102,7 +102,7 @@ LANGUAGE_CODE = 'ru'
 
 LANGUAGES = [
     ('en', _('English')),
-    ('ru', _('Russian')), 
+    ('ru', _('Russian')),
 ]
 
 USE_I18N = True
