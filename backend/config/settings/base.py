@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import environ
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 APPS_DIR = BASE_DIR / 'foodgram'
@@ -12,7 +13,7 @@ DEBUG = env.bool('DEBUG', False)
 
 SECRET_KEY = env('SECRET_KEY')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default='localhost')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', ])
 
 E = 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
 
@@ -94,9 +95,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+LOCALE_PATHS = [str(BASE_DIR / "locale")]
+
 LANGUAGE_CODE = 'ru'
 
-LANGUAGES = [('ru', 'Russian'), ]
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russian')), 
+]
 
 USE_I18N = True
 

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foodgram 1.0\n"
-"Report-Msgid-Bugs-To: https://github.com/ArtemKAF/foodgram-project-react/issues\n"
-"POT-Creation-Date: 2023-07-03 01:08+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-24 11:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Козин Артем <kaf-artem@yandex.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,70 +17,71 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: models.py:33
-msgid "email"
-msgstr "Электронная почта"
-
-#: models.py:42
-msgid "Name"
-msgstr "Имя"
-
-#: models.py:50
-msgid "Surname"
-msgstr "Фамилия"
-
-#: models.py:58
-msgid "Password"
-msgstr "Пароль"
-
-#: models.py:69
-msgid "User"
-msgstr "Пользователь"
-
-#: models.py:70
-msgid "Users"
-msgstr "Пользователи"
-
-#: models.py:91
-msgid "Author"
-msgstr "Автор"
-
-#: models.py:97
-msgid "Subscriber"
-msgstr "Подписчик"
-
-#: models.py:102
-msgid "Subscription"
-msgstr "Подписка"
-
-#: models.py:103
-msgid "Subscriptions"
-msgstr "Подписки"
-
-#: models.py:117
-msgid "subscribed to"
-msgstr "подписан на"
-
-#: forms.py:31
-msgid "This email alredy been taken."
-msgstr "Эта электронная почта уже существует."
-
-#: utils.py:11
-msgid "Required. %(value)s characters or fewer."
-msgstr "Обязательное поле. Не более %(value)s символов."
-
-#: ./api/serializers.py.py:96
+#: foodgram/users/api/serializers.py:96
 msgid "You can not subscribe to yourself!"
 msgstr "Нельзя подписаться на самого себя!"
 
-#: ./api/serializers.py.py:101
+#: foodgram/users/api/serializers.py:101
 msgid "You are already subscribed to this user!"
 msgstr "Вы уже подписаны на этого пользователя!'"
 
-#: ./api/utils.py:17
+#: foodgram/users/api/utils.py:17
 msgid "The recipes_limit parameter cannot be less than zero!"
 msgstr "Параметр recipes_limit не может быть меньше нуля!"
 
-#: ./api/utils.py:21
+#: foodgram/users/api/utils.py:21
 msgid "Invalid value of the recipes_limit parameter!"
 msgstr "Некорректное значение параметра recipes_limit!"
+
+#: foodgram/users/apps.py:8 foodgram/users/models.py:70
+msgid "Users"
+msgstr "Пользователи"
+
+#: foodgram/users/forms.py:31
+msgid "This email alredy been taken."
+msgstr "Эта электронная почта уже существует."
+
+#: foodgram/users/models.py:33
+msgid "email"
+msgstr "Электронная почта"
+
+#: foodgram/users/models.py:42
+msgid "Name"
+msgstr "Имя"
+
+#: foodgram/users/models.py:50
+msgid "Surname"
+msgstr "Фамилия"
+
+#: foodgram/users/models.py:58
+msgid "Password"
+msgstr "Пароль"
+
+#: foodgram/users/models.py:69
+msgid "User"
+msgstr "Пользователь"
+
+#: foodgram/users/models.py:91
+msgid "Author"
+msgstr "Автор"
+
+#: foodgram/users/models.py:97
+msgid "Subscriber"
+msgstr "Подписчик"
+
+#: foodgram/users/models.py:102
+msgid "Subscription"
+msgstr "Подписка"
+
+#: foodgram/users/models.py:103
+msgid "Subscriptions"
+msgstr "Подписки"
+
+#: foodgram/users/models.py:117
+msgid "subscribed to"
+msgstr "подписан на"
+
+#: foodgram/users/utils.py:12
+#, python-format
+msgid "Required. %(value)s characters or fewer."
+msgstr "Обязательное поле. Не более %(value)s символов."
