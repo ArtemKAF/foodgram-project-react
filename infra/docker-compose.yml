@@ -6,6 +6,7 @@ volumes:
   static_data:
   media_data:
 
+
 services:
 
   db:
@@ -18,7 +19,11 @@ services:
       - pg_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,7 +39,7 @@ services:
     volumes:
       - media_data:/app/foodgram/media/
       - static_data:/app/backend_static/
-    command: sh -c "python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && django-admin compilemessages && gunicorn --bind 0.0.0.0:8000 config.wsgi"
+    command: sh -c "python manage.py migrate && python manage.py loaddata -f 'data/tags.json' tag && python manage.py loaddata -f 'data/ingredients.json' ingredient && python manage.py collectstatic -c --noinput && cp -r /app/staticfiles/. /app/backend_static/ && django-admin compilemessages && gunicorn --bind 0.0.0.0:8000 config.wsgi"
     restart: unless-stopped
     depends_on:
       db:
