@@ -3,6 +3,8 @@
 Описывает классы сериализаторов для преобразования данных, поступающих в
 приложение отдаваемых приложением при соответствующих запросах.
 """
+
+
 from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
@@ -11,8 +13,8 @@ from foodgram.recipes.models import (Ingredient,  # isort:skip
                                      IngredientAmount, Recipe, Tag,
                                      FavoriteRecipe, ShoppingCart)
 from foodgram.users.api.serializers import CustomUserSerializer  # isort:skip
-from foodgram.recipes.utils import is_in_something  # isort:skip
-
+from foodgram.recipes.utils import (is_in_something,  # isort:skip
+                                    validate_unique_items)
 
 class TagSerializer(serializers.ModelSerializer):
     """Класс сериализатора для модели тэгов.
@@ -114,6 +116,14 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         errors = {}
+        ingredients = validate_unique_items(
+            data.get('ingredients'),
+            'ingredient'
+        )
+        if ingredients:
+            errors['multiple'] = _(
+                '%(ingredients)s are found more than once!'
+            ) % {'ingredients': ingredients}
         if self.context.get('request').method == 'POST':
             if Recipe.objects.filter(
                 name=data.get('name'),

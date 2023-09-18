@@ -3,6 +3,8 @@
 Описывает различные вспомогательные функции для использования в приложении
 рецептов.
 """
+from collections import Counter
+
 from django.utils.translation import gettext as _
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont
@@ -79,3 +81,11 @@ def create_delete_object(request, model, object, ser, err, *args, **kwargs):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     model.objects.filter(recipe=object, user=user).delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def validate_unique_items(items, item_name):
+    count_items = Counter()
+    for item in items:
+        count_items[item[item_name]] += 1
+    if len(count_items) != len(items):
+        return [item.name for item in count_items if count_items[item] > 1]

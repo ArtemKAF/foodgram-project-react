@@ -33,6 +33,11 @@ msgstr "Находится в избранном"
 msgid "Is in shopping cart"
 msgstr "Находится в корзине покупок"
 
+#: foodgram/recipes/api/serializers.py:125
+#, python-format
+msgid "%(ingredients)s are found more than once!"
+msgstr "%(ingredients)s встречаются более одного раза!"
+
 #: foodgram/recipes/api/serializers.py:124
 msgid "Do you already have a recipe with this name!"
 msgstr "У Вас уже есть рецепт с таким названием!"
