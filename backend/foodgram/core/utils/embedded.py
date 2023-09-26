@@ -1,5 +1,6 @@
-from foodgram.recipes.models import Recipe
 from rest_framework import serializers
+
+from foodgram.recipes.models import Recipe
 
 
 class ShortRecipeSerializer(serializers.ModelSerializer):

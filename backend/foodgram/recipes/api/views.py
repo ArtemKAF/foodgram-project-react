@@ -10,21 +10,18 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 
-from foodgram.recipes.api.filters import (IngredientFilter,  # isort:skip
-                                          RecipeFilter)
-from foodgram.recipes.api.permissions import (  # isort:skip
-    IsAuthorAdminOrReadOnly
+from foodgram.core.utils.embedded import ShortRecipeSerializer
+from foodgram.recipes.api.filters import IngredientFilter, RecipeFilter
+from foodgram.recipes.api.permissions import IsAuthorAdminOrReadOnly
+from foodgram.recipes.api.serializers import (
+    IngredientSerializer, RecipeSerializer, TagSerializer,
 )
-from foodgram.recipes.api.serializers import (  # isort:skip
-    IngredientSerializer, RecipeSerializer, TagSerializer
+from foodgram.recipes.constants import SHOPPING_LIST_PDF_SETTINGS
+from foodgram.recipes.models import (
+    FavoriteRecipe, Ingredient, IngredientAmount, Recipe, ShoppingCart, Tag,
 )
-from foodgram.core.utils.embedded import ShortRecipeSerializer  # isort:skip
-from foodgram.recipes.constants import SHOPPING_LIST_PDF_SETTINGS  # isort:skip
-from foodgram.recipes.models import (FavoriteRecipe, Ingredient,  # isort:skip
-                                     IngredientAmount, Recipe, Tag,
-                                     ShoppingCart)
-from foodgram.recipes.utils import (  # isort:skip
-    generate_shopping_list_in_pdf, create_delete_object
+from foodgram.recipes.utils import (
+    create_delete_object, generate_shopping_list_in_pdf,
 )
 
 

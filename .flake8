@@ -1,5 +1,0 @@
-[flake8]
-exclude = __pycache__,migrations
-per-file-ignores =
-    # line too long
-    backend/config/settings/base.py: E501,

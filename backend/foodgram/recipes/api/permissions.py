@@ -3,8 +3,9 @@
 Описывает классы настройки прав доступа к методам и объектам в приложениии
 рецептов.
 """
-from rest_framework.permissions import (SAFE_METHODS, BasePermission,
-                                        IsAuthenticatedOrReadOnly)
+from rest_framework.permissions import (
+    SAFE_METHODS, BasePermission, IsAuthenticatedOrReadOnly,
+)
 
 
 class IsAuthorAdminOrReadOnly(IsAuthenticatedOrReadOnly, BasePermission):

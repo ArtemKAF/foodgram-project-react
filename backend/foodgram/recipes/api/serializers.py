@@ -9,12 +9,12 @@ from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from foodgram.recipes.models import (Ingredient,  # isort:skip
-                                     IngredientAmount, Recipe, Tag,
-                                     FavoriteRecipe, ShoppingCart)
-from foodgram.users.api.serializers import CustomUserSerializer  # isort:skip
-from foodgram.recipes.utils import (is_in_something,  # isort:skip
-                                    validate_unique_items)
+from foodgram.recipes.models import (
+    FavoriteRecipe, Ingredient, IngredientAmount, Recipe, ShoppingCart, Tag,
+)
+from foodgram.recipes.utils import is_in_something, validate_unique_items
+from foodgram.users.api.serializers import CustomUserSerializer
+
 
 class TagSerializer(serializers.ModelSerializer):
     """Класс сериализатора для модели тэгов.
@@ -130,7 +130,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 author=self.context.get('request').user.pk
             ).exists():
                 errors['exists'] = _(
-                    'Do you already have a recipe with this name!'
+                    'You already have a recipe with this name!'
                 )
         if errors:
             raise serializers.ValidationError(errors)
