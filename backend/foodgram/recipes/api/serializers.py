@@ -3,8 +3,6 @@
 Описывает классы сериализаторов для преобразования данных, поступающих в
 приложение отдаваемых приложением при соответствующих запросах.
 """
-
-
 from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
@@ -134,7 +132,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 )
         if errors:
             raise serializers.ValidationError(errors)
-        return super(RecipeSerializer, self).validate(data)
+        return super().validate(data)
 
     class Meta:
         model = Recipe
