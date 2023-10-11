@@ -1,16 +1,24 @@
 repos:
-  - repo: local
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.292
+    hooks:
+    - id: ruff
+      types_or: [python]
+      args: []
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
     hooks:
       - id: flake8
         name: flake8
-        entry: flake8 --config setup.cfg .
-        language: system
-        types: [ python ]
-        pass_filenames: false
+        types: [python]
+        exclude: migrations
 
+  - repo: local
+    hooks:
       - id: isort
         name: isort
-        entry: isort --settings-file setup.cfg . -c
+        entry: isort -c --settings-file pyproject.toml .
         language: system
         types: [ python ]
         pass_filenames: false

@@ -139,3 +139,8 @@ media
 
 # collected static
 staticfiles
+
+# tools configurations
+pyproject.toml
+setup.cfg
+.pre-commit-config.yaml
