@@ -1,10 +1,7 @@
 ARG PYTHON_VERSION
 ARG GUNICORN_VERSION
 FROM python:$PYTHON_VERSION
-RUN apt-get update \
-    && apt-get install gettext --no-install-recommends -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk --no-cache add gettext
 WORKDIR /app
 COPY requirements.txt .
 ARG GUNICORN_VERSION
